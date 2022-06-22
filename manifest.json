@@ -1,0 +1,14 @@
+{
+  "name": "Things On This Page",
+  "description": "",
+  "version": "0.1",
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*", "http://localhost/*"],
+      "js": ["content.js"],
+      "css": ["custom.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
