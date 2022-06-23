@@ -1,5 +1,16 @@
 console.log({ document });
 
+let numberOfClicks = 0;
+document.body.addEventListener("click", () => numberOfClicks++);
+
+let totalOffset = 0;
+let currOffset = window.pageYOffset;
+window.addEventListener("scroll", () => {
+  let addedOffset = Math.abs(currOffset - window.pageYOffset);
+  totalOffset += addedOffset;
+  currOffset = window.pageYOffset;
+});
+
 function renderItemsToShow(itemsToShow) {
   return (
     "<div>" +
@@ -16,11 +27,19 @@ let renderPopup = () => {
     Scripts: document.scripts.length,
     "Style Sheets": document.styleSheets.length,
     Links: document.links.length,
+    "Page height":
+      Math.max(
+        document.body.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.clientHeight,
+        document.documentElement.scrollHeight,
+        document.documentElement.offsetHeight
+      ) + "px",
   };
 
   let thingsIHaveDone = {
-    Clicks: 5,
-    "Cm scrolled": 4,
+    Clicks: numberOfClicks,
+    "Pixels scrolled": totalOffset,
   };
 
   let container = document.getElementById("things-popup");
@@ -43,7 +62,8 @@ let loop = () => {
   setTimeout(() => {
     renderPopup();
     loop();
-  }, 1000);
+  }, 500);
 };
 
+renderPopup();
 loop();
