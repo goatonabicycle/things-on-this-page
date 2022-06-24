@@ -3,6 +3,20 @@ console.log({ document });
 let numberOfClicks = 0;
 document.body.addEventListener("click", () => numberOfClicks++);
 
+var totalMouseMoveDistance = 0;
+var lastSeenAt = { x: null, y: null };
+
+document.addEventListener("mousemove", (e) => {
+  if (lastSeenAt.x) {
+    totalMouseMoveDistance += Math.sqrt(
+      Math.pow(lastSeenAt.y - e.clientY, 2) +
+        Math.pow(lastSeenAt.x - e.clientX, 2)
+    );
+  }
+  lastSeenAt.x = e.clientX;
+  lastSeenAt.y = e.clientY;
+});
+
 let totalOffset = 0;
 let currOffset = window.pageYOffset;
 window.addEventListener("scroll", () => {
@@ -35,11 +49,16 @@ let renderPopup = () => {
         document.documentElement.scrollHeight,
         document.documentElement.offsetHeight
       ) + "px",
+    "Page width":
+      (window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth) + "px",
   };
 
   let thingsIHaveDone = {
     Clicks: numberOfClicks,
-    "Pixels scrolled": totalOffset,
+    Scrolled: Math.round(totalOffset) + "px",
+    "Mouse moved": Math.round(totalMouseMoveDistance) + "px",
   };
 
   let container = document.getElementById("things-popup");
