@@ -5,7 +5,12 @@
   "manifest_version": 3,
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*", "http://localhost/*"],
+      "matches": [
+        "http://*/*",
+        "https://*/*",
+        "http://localhost/*",
+        "file:///C:/Users"
+      ],
       "js": ["content.js"],
       "css": ["custom.css"],
       "run_at": "document_idle"
