@@ -1,11 +1,13 @@
 console.log({ document });
 
 let numberOfClicks = 0;
-document.body.addEventListener("click", () => numberOfClicks++);
+document.body.addEventListener("click", () => {
+  numberOfClicks++;
+  renderPopup();
+});
 
 var totalMouseMoveDistance = 0;
 var lastSeenAt = { x: null, y: null };
-
 document.addEventListener("mousemove", (e) => {
   if (lastSeenAt.x) {
     totalMouseMoveDistance += Math.sqrt(
@@ -15,6 +17,7 @@ document.addEventListener("mousemove", (e) => {
   }
   lastSeenAt.x = e.clientX;
   lastSeenAt.y = e.clientY;
+  renderPopup();
 });
 
 let totalOffset = 0;
@@ -23,6 +26,7 @@ window.addEventListener("scroll", () => {
   let addedOffset = Math.abs(currOffset - window.pageYOffset);
   totalOffset += addedOffset;
   currOffset = window.pageYOffset;
+  renderPopup();
 });
 
 function renderItemsToShow(itemsToShow) {
@@ -76,13 +80,3 @@ let renderPopup = () => {
     renderItemsToShow(thingsIHaveDone);
   document.body.appendChild(container);
 };
-
-let loop = () => {
-  setTimeout(() => {
-    renderPopup();
-    loop();
-  }, 500);
-};
-
-renderPopup();
-loop();
