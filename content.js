@@ -1,7 +1,6 @@
 console.log({ document });
 
-// -------------------------------------------------
-class words {
+class Words {
   getAllWordsInDocument() {
     let thingsPopup = document.getElementById("things-popup");
     if (!thingsPopup) return [];
@@ -9,16 +8,18 @@ class words {
     // TODO: Wow this is super hacky. Get a better way.
     let everything = document.body.innerText.replace(thingsPopup.innerText, "");
 
-    // TODO: This is actually a little off.
-    return everything
-      .replaceAll(",", " ")
-      .replaceAll("\n", " ")
-      .trim()
-      .split(" ");
+    let result = [];
+    let regex = /[A-Za-z]+('[A-Za-z]+)?/g; // TODO: Ugh... Explain this crazy Regex
+    let match;
+    while ((match = regex.exec(everything)) !== null) {
+      result.push(match[0]);
+    }
+
+    return result;
   }
 }
 
-class mouse {
+class Mouse {
   numberOfClicks = 0;
   totalMouseMoveDistance = 0;
   lastSeenAt = { x: null, y: null };
@@ -53,13 +54,38 @@ class mouse {
   }
 }
 
-let wordThings = new words();
-let mouseThings = new mouse();
+class Page {
+  getThingsOnThisPage() {
+    return {
+      Images: document.images.length,
+      Scripts: document.scripts.length,
+      "Style Sheets": document.styleSheets.length,
+      Links: document.links.length,
+      "Page height":
+        Math.max(
+          document.body.scrollHeight,
+          document.body.offsetHeight,
+          document.documentElement.clientHeight,
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight
+        ) + "px",
+      "Page width":
+        (window.innerWidth ||
+          document.documentElement.clientWidth ||
+          document.body.clientWidth) + "px",
+    };
+  }
+}
+
+//TODO: Dynamically do these based on UI selections?
+let wordThings = new Words();
+let mouseThings = new Mouse();
+let pageThings = new Page();
 mouseThings.monitor();
 
 function renderItemsToShow(itemsToShow) {
   return (
-    "<div>" +
+    "<div class='content'>" +
     Object.entries(itemsToShow)
       .map(([key, value]) => `<div>${key}: ${value}</div> `)
       .join("") +
@@ -69,24 +95,9 @@ function renderItemsToShow(itemsToShow) {
 
 let renderPopup = () => {
   let thingsOnThisPage = {
-    Images: document.images.length,
-    Scripts: document.scripts.length,
-    "Style Sheets": document.styleSheets.length,
-    Links: document.links.length,
-    "Page height":
-      Math.max(
-        document.body.scrollHeight,
-        document.body.offsetHeight,
-        document.documentElement.clientHeight,
-        document.documentElement.scrollHeight,
-        document.documentElement.offsetHeight
-      ) + "px",
-    "Page width":
-      (window.innerWidth ||
-        document.documentElement.clientWidth ||
-        document.body.clientWidth) + "px",
+    ...pageThings.getThingsOnThisPage(),
     "Number of words on Page": wordThings.getAllWordsInDocument().length,
-    "Words on this page": "a",
+    "Words on this page": wordThings.getAllWordsInDocument(), // TODO: Format this nicely.
   };
 
   let thingsIHaveDone = {
