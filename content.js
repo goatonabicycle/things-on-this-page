@@ -1,7 +1,5 @@
-console.log({ document });
-
 class Words {
-  getAllWordsInDocument() {
+  wordsOnThisDocument() {
     let thingsPopup = document.getElementById("things-popup");
     if (!thingsPopup) return [];
 
@@ -9,7 +7,11 @@ class Words {
     let everything = document.body.innerText.replace(thingsPopup.innerText, "");
 
     let result = [];
-    let regex = /[A-Za-z]+('[A-Za-z]+)?/g; // TODO: Ugh... Explain this crazy Regex
+
+    // This gets words inside a string including contractions (like don't or wouldn't).
+    // Contractions count as 1 word.
+    let regex = /[A-Za-z]+('[A-Za-z]+)?/g;
+
     let match;
     while ((match = regex.exec(everything)) !== null) {
       result.push(match[0]);
@@ -73,6 +75,8 @@ class Page {
         (window.innerWidth ||
           document.documentElement.clientWidth ||
           document.body.clientWidth) + "px",
+      "Seconds since initial load":
+        "<span id='time-since-load'>" + timeCounter + "</span>",
     };
   }
 }
@@ -83,7 +87,7 @@ let mouseThings = new Mouse();
 let pageThings = new Page();
 mouseThings.monitor();
 
-function renderItemsToShow(itemsToShow) {
+let renderItemsToShow = (itemsToShow) => {
   return (
     "<div class='content'>" +
     Object.entries(itemsToShow)
@@ -91,13 +95,13 @@ function renderItemsToShow(itemsToShow) {
       .join("") +
     "</div>"
   );
-}
+};
 
 let renderPopup = () => {
   let thingsOnThisPage = {
     ...pageThings.getThingsOnThisPage(),
-    "Number of words on Page": wordThings.getAllWordsInDocument().length,
-    "Words on this page": wordThings.getAllWordsInDocument(), // TODO: Format this nicely.
+    "Number of words on Page": wordThings.wordsOnThisDocument().length,
+    "Words on this page": wordThings.wordsOnThisDocument(), // TODO: Format this nicely.
   };
 
   let thingsIHaveDone = {
@@ -121,3 +125,18 @@ let renderPopup = () => {
     renderItemsToShow(thingsIHaveDone);
   document.body.appendChild(container);
 };
+
+let renderTimeSinceLoad = () => {
+  timeCounter++;
+  let container = document.getElementById("time-since-load");
+  if (container) container.innerHTML = timeCounter;
+};
+
+let timeCounter = -1;
+
+function renderEverySecond() {
+  renderTimeSinceLoad();
+  setTimeout(renderEverySecond, 1000);
+}
+
+renderEverySecond();
