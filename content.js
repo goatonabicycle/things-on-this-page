@@ -1,3 +1,50 @@
+class thingsPopup {
+  renderTimeSinceLoad() {
+    timeCounter++;
+    let container = document.getElementById("time-since-load");
+    if (container) container.innerHTML = timeCounter;
+  }
+
+  render() {
+    let renderItemsToShow = (itemsToShow) => {
+      return (
+        "<div class='content'>" +
+        Object.entries(itemsToShow)
+          .map(([key, value]) => `<div>${key}: ${value}</div> `)
+          .join("") +
+        "</div>"
+      );
+    };
+
+    let thingsOnThisPage = {
+      ...pageThings.getThingsOnThisPage(),
+      "Number of words on Page": wordThings.wordsOnThisDocument().length,
+      "Words on this page": wordThings.wordsOnThisDocument(), // TODO: Format this nicely.
+    };
+
+    let thingsIHaveDone = {
+      Clicks: mouseThings.numberOfClicks,
+      Scrolled: Math.round(mouseThings.totalOffset) + "px",
+      "Mouse moved": Math.round(mouseThings.totalMouseMoveDistance) + "px",
+    };
+
+    let container = document.getElementById("things-popup");
+    if (!container) {
+      container = document.createElement("div");
+      container.id = "things-popup";
+      container.className = "things-popup-contain";
+    } else document.body.removeChild(container);
+
+    container.innerHTML =
+      "<div class='title'>Things On This Page</div>" +
+      renderItemsToShow(thingsOnThisPage) +
+      "<br /> " +
+      "<div class='title'>Things You Have Done</div>" +
+      renderItemsToShow(thingsIHaveDone);
+    document.body.appendChild(container);
+  }
+}
+
 class Words {
   wordsOnThisDocument() {
     let thingsPopup = document.getElementById("things-popup");
@@ -31,7 +78,7 @@ class Mouse {
   monitor() {
     document.addEventListener("click", () => {
       this.numberOfClicks++;
-      renderPopup();
+      thisPopup.render();
     });
 
     document.addEventListener("mousemove", (e) => {
@@ -44,14 +91,14 @@ class Mouse {
       this.lastSeenAt.x = e.clientX;
       this.lastSeenAt.y = e.clientY;
 
-      renderPopup();
+      thisPopup.render();
     });
 
     document.addEventListener("scroll", () => {
       let addedOffset = Math.abs(this.currOffset - window.pageYOffset);
       this.totalOffset += addedOffset;
       this.currOffset = window.pageYOffset;
-      renderPopup();
+      thisPopup.render();
     });
   }
 }
@@ -77,7 +124,34 @@ class Page {
           document.body.clientWidth) + "px",
       "Seconds since initial load":
         "<span id='time-since-load'>" + timeCounter + "</span>",
+      "Average element colour": this.getAverageColourOfAllElementsOnPage(),
+      "Total number of characters": document.body.innerHTML.length,
     };
+  }
+
+  getAverageColourOfAllElementsOnPage() {
+    let elements = document.querySelectorAll("*");
+    let r = 0,
+      g = 0,
+      b = 0;
+    let count = 0;
+
+    for (element of elements) {
+      let color = window.getComputedStyle(element).getPropertyValue("color");
+      let colorArray = color.match(/\d+/g);
+      if (colorArray.length >= 3) {
+        r += parseInt(colorArray[0]);
+        g += parseInt(colorArray[1]);
+        b += parseInt(colorArray[2]);
+        count++;
+      }
+    }
+
+    let averageR = Math.round(r / count);
+    let averageG = Math.round(g / count);
+    let averageB = Math.round(b / count);
+
+    return `rgb("${averageR}, ${averageG}, ${averageB}")`;
   }
 }
 
@@ -87,55 +161,13 @@ let mouseThings = new Mouse();
 let pageThings = new Page();
 mouseThings.monitor();
 
-let renderItemsToShow = (itemsToShow) => {
-  return (
-    "<div class='content'>" +
-    Object.entries(itemsToShow)
-      .map(([key, value]) => `<div>${key}: ${value}</div> `)
-      .join("") +
-    "</div>"
-  );
-};
-
-let renderPopup = () => {
-  let thingsOnThisPage = {
-    ...pageThings.getThingsOnThisPage(),
-    "Number of words on Page": wordThings.wordsOnThisDocument().length,
-    "Words on this page": wordThings.wordsOnThisDocument(), // TODO: Format this nicely.
-  };
-
-  let thingsIHaveDone = {
-    Clicks: mouseThings.numberOfClicks,
-    Scrolled: Math.round(mouseThings.totalOffset) + "px",
-    "Mouse moved": Math.round(mouseThings.totalMouseMoveDistance) + "px",
-  };
-
-  let container = document.getElementById("things-popup");
-  if (!container) {
-    container = document.createElement("div");
-    container.id = "things-popup";
-    container.className = "things-popup-contain";
-  } else document.body.removeChild(container);
-
-  container.innerHTML =
-    "<div class='title'>Things On This Page</div>" +
-    renderItemsToShow(thingsOnThisPage) +
-    "<br /> " +
-    "<div class='title'>Things You Have Done</div>" +
-    renderItemsToShow(thingsIHaveDone);
-  document.body.appendChild(container);
-};
-
-let renderTimeSinceLoad = () => {
-  timeCounter++;
-  let container = document.getElementById("time-since-load");
-  if (container) container.innerHTML = timeCounter;
-};
+//TODO: Handle these classes better.
+let thisPopup = new thingsPopup();
 
 let timeCounter = -1;
 
 function renderEverySecond() {
-  renderTimeSinceLoad();
+  thisPopup.renderTimeSinceLoad();
   setTimeout(renderEverySecond, 1000);
 }
 
