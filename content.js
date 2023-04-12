@@ -52,24 +52,19 @@ class thingsPopup {
 
 class Words {
   getWordsOnPage() {
-    let thingsPopup = document.getElementById("things-popup");
+    const thingsPopup = document.getElementById("things-popup");
     if (!thingsPopup) return [];
 
-    // TODO: Wow this is super hacky. Get a better way.
-    let everything = document.body.innerText.replace(thingsPopup.innerText, "");
+    // Get all the text on the page, excluding the text in the popup
+    const everything = document.body.innerText.replace(
+      thingsPopup.innerText,
+      ""
+    );
 
-    let result = [];
+    // Split the text into words using a regular expression
+    const words = everything.match(/[A-Za-z]+('[A-Za-z]+)?/g) || [];
 
-    // This gets words inside a string including contractions (like don't or wouldn't).
-    // Contractions count as 1 word.
-    let regex = /[A-Za-z]+('[A-Za-z]+)?/g;
-
-    let match;
-    while ((match = regex.exec(everything)) !== null) {
-      result.push(match[0]);
-    }
-    console.log(result);
-    return result;
+    return words;
   }
 
   countWords(words) {
