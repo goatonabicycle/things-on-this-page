@@ -7,26 +7,31 @@ class thingsPopup {
 
   render() {
     let renderItemsToShow = (itemsToShow) => {
-      return (
-        "<div class='content'>" +
-        Object.entries(itemsToShow)
-          .map(([key, value]) => `<div>${key}: ${value}</div> `)
-          .join("") +
-        "</div>"
-      );
+      let result = "<div class='content'>";
+
+      for (let i = 0; i < itemsToShow.length; i++) {
+        const item = itemsToShow[i];
+        result += `<div>${item.name}: ${item.value} </div>`;
+      }
+
+      result += "</div>";
+
+      return result;
     };
 
-    let thingsOnThisPage = {
-      ...pageThings.getThingsOnThisPage(),
-      "Number of words on Page": wordThings.wordsOnThisDocument().length,
-      "Words on this page": wordThings.wordsOnThisDocument(), // TODO: Format this nicely.
-    };
+    let thingsOnThisPage = [];
+    thingsOnThisPage.push(...pageThings.getThingsOnThisPage());
 
-    let thingsIHaveDone = {
-      Clicks: mouseThings.numberOfClicks,
-      Scrolled: Math.round(mouseThings.totalOffset) + "px",
-      "Mouse moved": Math.round(mouseThings.totalMouseMoveDistance) + "px",
-    };
+    let thingsIHaveDone = [];
+    thingsIHaveDone.push({ name: "Clicks", value: mouseThings.numberOfClicks });
+    thingsIHaveDone.push({
+      name: "Scrolled",
+      value: Math.round(mouseThings.totalOffset) + "px",
+    });
+    thingsIHaveDone.push({
+      name: "Mouse moved",
+      value: Math.round(mouseThings.totalMouseMoveDistance) + "px",
+    });
 
     let container = document.getElementById("things-popup");
     if (!container) {
@@ -65,6 +70,65 @@ class Words {
     }
 
     return result;
+  }
+
+  getAWordCountTable(words) {
+    const counts = {};
+
+    words.forEach((word) => {
+      if (word in counts) {
+        counts[word]++;
+      } else {
+        counts[word] = 1;
+      }
+    });
+
+    const countsArray = Object.keys(counts).map((word) => [word, counts[word]]);
+    const sortedCountsArray = countsArray.sort((a, b) => {
+      if (a[1] === b[1]) {
+        return a[0].localeCompare(b[0]);
+      }
+      return b[1] - a[1];
+    });
+
+    const table = document.createElement("table");
+
+    const thead = document.createElement("thead");
+
+    const tr = document.createElement("tr");
+
+    const thWord = document.createElement("th");
+    thWord.textContent = "Word";
+
+    const thCount = document.createElement("th");
+    thCount.textContent = "Count";
+
+    tr.appendChild(thWord);
+    tr.appendChild(thCount);
+
+    thead.appendChild(tr);
+
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+
+    for (const [word, count] of sortedCountsArray) {
+      const tr = document.createElement("tr");
+
+      const tdWord = document.createElement("td");
+      tdWord.textContent = word;
+
+      const tdCount = document.createElement("td");
+      tdCount.textContent = count;
+
+      tr.appendChild(tdWord);
+      tr.appendChild(tdCount);
+
+      tbody.appendChild(tr);
+    }
+
+    table.appendChild(tbody);
+    return table.innerHTML;
   }
 }
 
@@ -105,12 +169,15 @@ class Mouse {
 
 class Page {
   getThingsOnThisPage() {
-    return {
-      Images: document.images.length,
-      Scripts: document.scripts.length,
-      "Style Sheets": document.styleSheets.length,
-      Links: document.links.length,
-      "Page height":
+    let result = [];
+
+    result.push({ name: "Images", value: document.images.length });
+    result.push({ name: "Scripts", value: document.scripts.length });
+    result.push({ name: "Style Sheets", value: document.styleSheets.length });
+    result.push({ name: "Links", value: document.links.length });
+    result.push({
+      name: "Page height",
+      value:
         Math.max(
           document.body.scrollHeight,
           document.body.offsetHeight,
@@ -118,15 +185,39 @@ class Page {
           document.documentElement.scrollHeight,
           document.documentElement.offsetHeight
         ) + "px",
-      "Page width":
+    });
+    result.push({
+      name: "Page width",
+      value:
         (window.innerWidth ||
           document.documentElement.clientWidth ||
           document.body.clientWidth) + "px",
-      "Seconds since initial load":
-        "<span id='time-since-load'>" + timeCounter + "</span>",
-      "Average element colour": this.getAverageColourOfAllElementsOnPage(),
-      "Total number of characters": document.body.innerHTML.length,
-    };
+    });
+    result.push({
+      name: "Seconds since initial load",
+      value: "<span id='time-since-load'>" + timeCounter + "</span>",
+    });
+    result.push({ name: "Links", value: document.links.length });
+    result.push({
+      name: "Average element colour",
+      value: this.getAverageColourOfAllElementsOnPage(),
+    });
+    result.push({
+      name: "Total number of characters",
+      value: document.body.innerHTML.length,
+    });
+    result.push({
+      name: "Number of words on Page",
+      value: wordThings.wordsOnThisDocument().length,
+    });
+
+    result.push({
+      name: "Words on this page",
+      value: wordThings.getAWordCountTable(wordThings.wordsOnThisDocument()),
+      display: "table",
+    });
+
+    return result;
   }
 
   getAverageColourOfAllElementsOnPage() {
@@ -136,7 +227,8 @@ class Page {
       b = 0;
     let count = 0;
 
-    for (element of elements) {
+    for (let i = 0; i < elements.length; i++) {
+      let element = elements[i];
       let color = window.getComputedStyle(element).getPropertyValue("color");
       let colorArray = color.match(/\d+/g);
       if (colorArray.length >= 3) {
