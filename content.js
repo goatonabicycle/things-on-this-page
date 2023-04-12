@@ -51,7 +51,7 @@ class thingsPopup {
 }
 
 class Words {
-  wordsOnThisDocument() {
+  getWordsOnPage() {
     let thingsPopup = document.getElementById("things-popup");
     if (!thingsPopup) return [];
 
@@ -68,67 +68,82 @@ class Words {
     while ((match = regex.exec(everything)) !== null) {
       result.push(match[0]);
     }
-
+    console.log(result);
     return result;
   }
 
-  getAWordCountTable(words) {
-    const counts = {};
+  countWords(words) {
+    const counts = new Map();
 
-    words.forEach((word) => {
-      if (word in counts) {
-        counts[word]++;
-      } else {
-        counts[word] = 1;
-      }
-    });
+    for (const word of words) {
+      const count = counts.get(word) || 0;
+      counts.set(word, count + 1);
+    }
 
-    const countsArray = Object.keys(counts).map((word) => [word, counts[word]]);
-    const sortedCountsArray = countsArray.sort((a, b) => {
+    return counts;
+  }
+
+  sortCountsArray(counts) {
+    const sortedCountsArray = Array.from(counts.entries()).sort((a, b) => {
       if (a[1] === b[1]) {
         return a[0].localeCompare(b[0]);
       }
       return b[1] - a[1];
     });
 
+    return sortedCountsArray;
+  }
+
+  createTable(sortedCountsArray) {
     const table = document.createElement("table");
-
     const thead = document.createElement("thead");
-
-    const tr = document.createElement("tr");
-
-    const thWord = document.createElement("th");
-    thWord.textContent = "Word";
-
-    const thCount = document.createElement("th");
-    thCount.textContent = "Count";
-
-    tr.appendChild(thWord);
-    tr.appendChild(thCount);
-
-    thead.appendChild(tr);
-
-    table.appendChild(thead);
-
     const tbody = document.createElement("tbody");
 
+    const trHead = document.createElement("tr");
+    const thWord = document.createElement("th");
+    const thCount = document.createElement("th");
+
+    thWord.textContent = "Word";
+    thCount.textContent = "Count";
+
+    trHead.appendChild(thWord);
+    trHead.appendChild(thCount);
+    thead.appendChild(trHead);
+    table.appendChild(thead);
+
     for (const [word, count] of sortedCountsArray) {
-      const tr = document.createElement("tr");
-
-      const tdWord = document.createElement("td");
-      tdWord.textContent = word;
-
-      const tdCount = document.createElement("td");
-      tdCount.textContent = count;
-
-      tr.appendChild(tdWord);
-      tr.appendChild(tdCount);
-
-      tbody.appendChild(tr);
+      const trBody = this.createTableRow(word, count);
+      tbody.appendChild(trBody);
     }
 
     table.appendChild(tbody);
-    return table.innerHTML;
+    return table;
+  }
+
+  createTableRow(word, count) {
+    const tr = document.createElement("tr");
+    const tdWord = document.createElement("td");
+    const tdCount = document.createElement("td");
+
+    tdWord.textContent = word;
+    tdCount.textContent = count;
+
+    tr.appendChild(tdWord);
+    tr.appendChild(tdCount);
+
+    return tr;
+  }
+
+  getAWordCountTable(words) {
+    if (!words || words.length === 0) {
+      return;
+    }
+
+    const counts = this.countWords(words);
+    const sortedCountsArray = this.sortCountsArray(counts);
+    const table = this.createTable(sortedCountsArray);
+
+    return table.outerHTML;
   }
 }
 
@@ -208,12 +223,12 @@ class Page {
     });
     result.push({
       name: "Number of words on Page",
-      value: wordThings.wordsOnThisDocument().length,
+      value: wordThings.getWordsOnPage().length,
     });
 
     result.push({
       name: "Words on this page",
-      value: wordThings.getAWordCountTable(wordThings.wordsOnThisDocument()),
+      value: wordThings.getAWordCountTable(wordThings.getWordsOnPage()),
       display: "table",
     });
 
