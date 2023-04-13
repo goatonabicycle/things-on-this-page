@@ -20,17 +20,17 @@ let thingsPopup = {
     };
 
     let thingsOnThisPage = [];
-    thingsOnThisPage.push(...pageThings.getThingsOnThisPage());
+    thingsOnThisPage.push(...page.getThingsOnThisPage());
 
     let thingsIHaveDone = [];
-    thingsIHaveDone.push({ name: "Clicks", value: mouseThings.numberOfClicks });
+    thingsIHaveDone.push({ name: "Clicks", value: mouse.numberOfClicks });
     thingsIHaveDone.push({
       name: "Scrolled",
-      value: Math.round(mouseThings.totalOffset) + "px",
+      value: Math.round(mouse.totalOffset) + "px",
     });
     thingsIHaveDone.push({
       name: "Mouse moved",
-      value: Math.round(mouseThings.totalMouseMoveDistance) + "px",
+      value: Math.round(mouse.totalMouseMoveDistance) + "px",
     });
 
     let container = document.getElementById("things-popup");
@@ -142,17 +142,17 @@ let words = {
   },
 };
 
-class Mouse {
-  numberOfClicks = 0;
-  totalMouseMoveDistance = 0;
-  lastSeenAt = { x: null, y: null };
-  totalOffset = 0;
-  currOffset = window.pageYOffset;
+let mouse = {
+  numberOfClicks: 0,
+  totalMouseMoveDistance: 0,
+  lastSeenAt: { x: null, y: null },
+  totalOffset: 0,
+  currOffset: window.pageYOffset,
 
   monitor() {
     document.addEventListener("click", () => {
       this.numberOfClicks++;
-      thingsPopup4.render();
+      thingsPopup.render();
     });
 
     document.addEventListener("mousemove", (e) => {
@@ -174,10 +174,10 @@ class Mouse {
       this.currOffset = window.pageYOffset;
       thingsPopup.render();
     });
-  }
-}
+  },
+};
 
-class Page {
+let page = {
   getThingsOnThisPage() {
     let result = [];
 
@@ -228,7 +228,7 @@ class Page {
     });
 
     return result;
-  }
+  },
 
   getAverageColourOfAllElementsOnPage() {
     let elements = document.querySelectorAll("*");
@@ -254,16 +254,13 @@ class Page {
     let averageB = Math.round(b / count);
 
     return `rgb("${averageR}, ${averageG}, ${averageB}")`;
-  }
-}
+  },
+};
 
 //TODO: Dynamically do these based on UI selections?
 
-let mouseThings = new Mouse();
-let pageThings = new Page();
-mouseThings.monitor();
+mouse.monitor();
 
-//TODO: Handle these classes better.
 let timeCounter = -1;
 
 function renderEverySecond() {
