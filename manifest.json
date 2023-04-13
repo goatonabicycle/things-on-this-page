@@ -11,7 +11,12 @@
         "http://localhost/*",
         "file:///*/*"
       ],
-      "js": ["content/mouse.js", "content/words.js", "content.js"],
+      "js": [
+        "content/page.js",
+        "content/mouse.js",
+        "content/words.js",
+        "content.js"
+      ],
       "type": "module",
       "css": ["custom.css"],
       "run_at": "document_idle"
