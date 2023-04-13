@@ -1,9 +1,9 @@
-class thingsPopup {
+let thingsPopup = {
   renderTimeSinceLoad() {
     timeCounter++;
     let container = document.getElementById("time-since-load");
     if (container) container.innerHTML = timeCounter;
-  }
+  },
 
   render() {
     let renderItemsToShow = (itemsToShow) => {
@@ -47,10 +47,10 @@ class thingsPopup {
       "<div class='title'>Things You Have Done</div>" +
       renderItemsToShow(thingsIHaveDone);
     document.body.appendChild(container);
-  }
-}
+  },
+};
 
-class Words {
+let words = {
   getWordsOnPage() {
     const thingsPopup = document.getElementById("things-popup");
     if (!thingsPopup) return [];
@@ -65,7 +65,7 @@ class Words {
     const words = everything.match(/[A-Za-z]+('[A-Za-z]+)?/g) || [];
 
     return words;
-  }
+  },
 
   countWords(words) {
     const counts = new Map();
@@ -76,7 +76,7 @@ class Words {
     }
 
     return counts;
-  }
+  },
 
   sortCountsArray(counts) {
     const sortedCountsArray = Array.from(counts.entries()).sort((a, b) => {
@@ -87,7 +87,7 @@ class Words {
     });
 
     return sortedCountsArray;
-  }
+  },
 
   createTable(sortedCountsArray) {
     const table = document.createElement("table");
@@ -113,7 +113,7 @@ class Words {
 
     table.appendChild(tbody);
     return table;
-  }
+  },
 
   createTableRow(word, count) {
     const tr = document.createElement("tr");
@@ -127,7 +127,7 @@ class Words {
     tr.appendChild(tdCount);
 
     return tr;
-  }
+  },
 
   getAWordCountTable(words) {
     if (!words || words.length === 0) {
@@ -139,8 +139,8 @@ class Words {
     const table = this.createTable(sortedCountsArray);
 
     return table.outerHTML;
-  }
-}
+  },
+};
 
 class Mouse {
   numberOfClicks = 0;
@@ -152,7 +152,7 @@ class Mouse {
   monitor() {
     document.addEventListener("click", () => {
       this.numberOfClicks++;
-      thisPopup.render();
+      thingsPopup4.render();
     });
 
     document.addEventListener("mousemove", (e) => {
@@ -165,14 +165,14 @@ class Mouse {
       this.lastSeenAt.x = e.clientX;
       this.lastSeenAt.y = e.clientY;
 
-      thisPopup.render();
+      thingsPopup.render();
     });
 
     document.addEventListener("scroll", () => {
       let addedOffset = Math.abs(this.currOffset - window.pageYOffset);
       this.totalOffset += addedOffset;
       this.currOffset = window.pageYOffset;
-      thisPopup.render();
+      thingsPopup.render();
     });
   }
 }
@@ -218,12 +218,12 @@ class Page {
     });
     result.push({
       name: "Number of words on Page",
-      value: wordThings.getWordsOnPage().length,
+      value: words.getWordsOnPage().length,
     });
 
     result.push({
       name: "Words on this page",
-      value: wordThings.getAWordCountTable(wordThings.getWordsOnPage()),
+      value: words.getAWordCountTable(words.getWordsOnPage()),
       display: "table",
     });
 
@@ -258,18 +258,16 @@ class Page {
 }
 
 //TODO: Dynamically do these based on UI selections?
-let wordThings = new Words();
+
 let mouseThings = new Mouse();
 let pageThings = new Page();
 mouseThings.monitor();
 
 //TODO: Handle these classes better.
-let thisPopup = new thingsPopup();
-
 let timeCounter = -1;
 
 function renderEverySecond() {
-  thisPopup.renderTimeSinceLoad();
+  thingsPopup.renderTimeSinceLoad();
   setTimeout(renderEverySecond, 1000);
 }
 
