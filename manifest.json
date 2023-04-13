@@ -9,9 +9,10 @@
         "http://*/*",
         "https://*/*",
         "http://localhost/*",
-        "file:///C:/Users"
+        "file:///*/*"
       ],
-      "js": ["content.js"],
+      "js": ["content/words.js", "content.js"],
+      "type": "module",
       "css": ["custom.css"],
       "run_at": "document_idle"
     }
