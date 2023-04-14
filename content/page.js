@@ -1,5 +1,7 @@
-const page = {
-  getThingsOnThisPage() {
+import { words } from "./words.js";
+
+export const page = {
+  getThingsOnThisPage(timeCounter) {
     const result = [];
 
     result.push({ name: "Images", value: document.images.length });

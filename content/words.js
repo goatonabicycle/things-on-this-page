@@ -1,4 +1,4 @@
-const words = {
+export const words = {
   getWordsOnPage() {
     const thingsPopup = document.getElementById("things-popup");
     if (!thingsPopup) return [];

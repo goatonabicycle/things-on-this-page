@@ -1,4 +1,6 @@
-const mouse = {
+import { thingsPopup } from "./thingsPopup";
+
+export const mouse = {
   numberOfClicks: 0,
   totalMouseMoveDistance: 0,
   lastSeenAt: { x: null, y: null },
