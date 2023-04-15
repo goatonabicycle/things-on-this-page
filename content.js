@@ -2,8 +2,6 @@ import "./custom.css";
 import { mouse } from "./content/mouse";
 import { thingsPopup } from "./content/thingsPopup";
 
-//TODO: Dynamically do these based on UI selections?
-
 mouse.monitor();
 
 function renderEverySecond() {
@@ -12,5 +10,3 @@ function renderEverySecond() {
 }
 
 renderEverySecond();
-
-console.log("Content!");
