@@ -10,3 +10,5 @@ function renderEverySecond() {
 }
 
 renderEverySecond();
+
+// create a mechanism where the user can select which items to use
