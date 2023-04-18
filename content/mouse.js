@@ -32,6 +32,18 @@ export const mouse = {
     thingsPopup.renderMouseSection();
   },
 
+  getCurrentData() {
+    const mouseData = [
+      { name: "Mouse clicks", value: this.numberOfClicks },
+      { name: "Mouse scrolled", value: `${Math.round(this.totalOffset)}px` },
+      {
+        name: "Mouse moved",
+        value: `${Math.round(this.totalMouseMoveDistance)}px`,
+      },
+    ];
+    return mouseData;
+  },
+
   monitor() {
     document.addEventListener("click", this.handleClick.bind(this));
     document.addEventListener("mousemove", this.handleMouseMove.bind(this));
