@@ -21,7 +21,7 @@ export const thingsPopup = {
     }
   },
 
-  renderMouseSection() {
+  getMouseData() {
     const mouseData = [
       { name: "Clicks", value: mouse.numberOfClicks },
       { name: "Scrolled", value: `${Math.round(mouse.totalOffset)}px` },
@@ -30,28 +30,21 @@ export const thingsPopup = {
         value: `${Math.round(mouse.totalMouseMoveDistance)}px`,
       },
     ];
+    return mouseData;
+  },
 
+  renderMouseSection() {
+    const mouseData = this.getMouseData();
     const container = document.getElementById("mouse-data");
 
-    if (container) {
-      const content = container.querySelector(".content");
-      content.innerHTML = mouseData
-        .map((item) => `<div class="item">${item.name}: ${item.value}</div>`)
-        .join("");
-    }
+    container.innerHTML = mouseData
+      .map((item) => `<div class="item">${item.name}: ${item.value}</div>`)
+      .join("");
   },
 
   render() {
     const thingsOnThisPage = page.getThingsOnThisPage();
-
-    const thingsIHaveDone = [
-      { name: "Clicks", value: mouse.numberOfClicks },
-      { name: "Scrolled", value: `${Math.round(mouse.totalOffset)}px` },
-      {
-        name: "Mouse moved",
-        value: `${Math.round(mouse.totalMouseMoveDistance)}px`,
-      },
-    ];
+    const mouseData = this.getMouseData();
 
     const container =
       document.getElementById("things-popup") || document.createElement("div");
@@ -66,12 +59,12 @@ export const thingsPopup = {
           .join("")}
       </div>
       <br />
-      <div class="title">Things You Have Done</div>
-      <div id="mousedata" class="content">
-        ${thingsIHaveDone
+      <div class="title">Things You Have Done</div>      
+      <div id="mouse-data" class="content">
+        ${mouseData
           .map((item) => `<div>${item.name}: ${item.value}</div>`)
           .join("")}
-      </div>
+      </div>     
     `;
 
     document.body.appendChild(container);
