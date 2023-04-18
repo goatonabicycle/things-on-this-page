@@ -12,7 +12,8 @@
         "file:///*/*"
       ],
       "js": [
-        "content/thingsPopup.js",
+        "content/things-popup.js",
+        "content/time-counter.js",
         "content/page.js",
         "content/mouse.js",
         "content/words.js",

@@ -1,31 +1,9 @@
 import { page } from "./page.js";
 import { mouse } from "./mouse.js";
 
-let timeCounter = -1;
-
 export const thingsPopup = {
-  updateCounterDisplay() {
-    const timeSinceLoadElement = document.getElementById("time-since-load");
-    if (timeSinceLoadElement) {
-      timeSinceLoadElement.textContent = timeCounter;
-    }
-  },
-
-  updateTimeCounter() {
-    timeCounter++;
-    this.updateCounterDisplay();
-  },
-
-  renderTimeSinceLoad() {
-    timeCounter++;
-    const timeSinceLoadElement = document.getElementById("time-since-load");
-    if (timeSinceLoadElement) {
-      timeSinceLoadElement.textContent = timeCounter;
-    }
-  },
-
   renderThingsOnThisPageSection() {
-    const thingsOnThisPage = page.getThingsOnThisPage(timeCounter);
+    const thingsOnThisPage = page.getThingsOnThisPage();
     const container = document.getElementById("things-on-page");
 
     if (container) {
@@ -64,7 +42,7 @@ export const thingsPopup = {
   },
 
   render() {
-    const thingsOnThisPage = page.getThingsOnThisPage(timeCounter);
+    const thingsOnThisPage = page.getThingsOnThisPage();
 
     const thingsIHaveDone = [
       { name: "Clicks", value: mouse.numberOfClicks },

@@ -1,4 +1,4 @@
-import { thingsPopup } from "./thingsPopup";
+import { thingsPopup } from "./things-popup";
 
 export const mouse = {
   numberOfClicks: 0,
