@@ -7,30 +7,34 @@ export const mouse = {
   totalOffset: 0,
   currOffset: window.pageYOffset,
 
+  handleMouseMove(e) {
+    if (this.lastSeenAt.x) {
+      this.totalMouseMoveDistance += Math.sqrt(
+        Math.pow(this.lastSeenAt.y - e.clientY, 2) +
+          Math.pow(this.lastSeenAt.x - e.clientX, 2)
+      );
+    }
+    this.lastSeenAt.x = e.clientX;
+    this.lastSeenAt.y = e.clientY;
+
+    thingsPopup.renderMouseSection();
+  },
+
+  handleScroll() {
+    const addedOffset = Math.abs(this.currOffset - window.pageYOffset);
+    this.totalOffset += addedOffset;
+    this.currOffset = window.pageYOffset;
+    thingsPopup.renderMouseSection();
+  },
+
+  handleClick() {
+    this.numberOfClicks++;
+    thingsPopup.renderMouseSection();
+  },
+
   monitor() {
-    document.addEventListener("click", () => {
-      this.numberOfClicks++;
-      thingsPopup.render();
-    });
-
-    document.addEventListener("mousemove", (e) => {
-      if (this.lastSeenAt.x) {
-        this.totalMouseMoveDistance += Math.sqrt(
-          Math.pow(this.lastSeenAt.y - e.clientY, 2) +
-            Math.pow(this.lastSeenAt.x - e.clientX, 2)
-        );
-      }
-      this.lastSeenAt.x = e.clientX;
-      this.lastSeenAt.y = e.clientY;
-
-      thingsPopup.render();
-    });
-
-    document.addEventListener("scroll", () => {
-      const addedOffset = Math.abs(this.currOffset - window.pageYOffset);
-      this.totalOffset += addedOffset;
-      this.currOffset = window.pageYOffset;
-      thingsPopup.render();
-    });
+    document.addEventListener("click", this.handleClick.bind(this));
+    document.addEventListener("mousemove", this.handleMouseMove.bind(this));
+    document.addEventListener("scroll", this.handleScroll.bind(this));
   },
 };

@@ -4,11 +4,10 @@ import { thingsPopup } from "./content/thingsPopup";
 
 mouse.monitor();
 
-function renderEverySecond() {
-  thingsPopup.renderTimeSinceLoad();
-  setTimeout(renderEverySecond, 1000);
+function updateEverySecond() {
+  thingsPopup.updateTimeCounter();
+  setTimeout(updateEverySecond, 1000);
 }
 
-renderEverySecond();
-
-// create a mechanism where the user can select which items to use
+thingsPopup.render();
+updateEverySecond();

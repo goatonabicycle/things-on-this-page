@@ -1,22 +1,62 @@
 .things-popup-contain {
-    background-color: white;
-    color: black;
-    position: fixed;
-    top: 10px;
-    right: 30px;
-    width: 250px;
-    height: auto;
-    max-height: 90%;
-    margin-bottom: 20px;    
-    font-size: 10px;
-    z-index: 999999;
-    padding: 10px;    
-    overflow-y: auto;
-    border: 1px solid rgb(12, 9, 9) !important;    
-  }
-    
-  .things-popup-contain .title {
-    color: chocolate;
-    font-size: 12px;
-    text-align: center;
-  }
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 250px;
+  max-height: 90%;
+  padding: 10px;
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  background-color: white;
+  color: black;
+  border: 1px solid rgb(12, 9, 9);
+  border-radius: 8px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  overflow-y: auto;
+  z-index: 999999;
+}
+
+.things-popup-contain .section {
+  margin-bottom: 16px;
+}
+
+.things-popup-contain .title {
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-align: center;
+  color: chocolate;
+}
+
+.things-popup-contain .content {
+  margin-left: 12px;
+}
+
+.things-popup-contain .item {
+  margin-bottom: 4px;
+}
+
+/* Table Styles */
+.things-popup-contain table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background-color: #fff;
+}
+
+.things-popup-contain thead {
+  background-color: #f9f9f9;
+  font-weight: bold;
+}
+
+.things-popup-contain th, .things-popup-contain td {
+  padding: 5px;
+  text-align: left;
+}
+
+.things-popup-contain tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.things-popup-contain .hidden {
+  display: none;
+}

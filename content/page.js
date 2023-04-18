@@ -1,7 +1,7 @@
 import { words } from "./words.js";
 
 export const page = {
-  getThingsOnThisPage(timeCounter) {
+  getThingsOnThisPage() {
     const result = [];
 
     result.push({ name: "Images", value: document.images.length });
@@ -28,7 +28,7 @@ export const page = {
     });
     result.push({
       name: "Seconds since initial load",
-      value: "<span id='time-since-load'>" + timeCounter + "</span>",
+      value: "<span id='time-since-load'></span>",
     });
     result.push({ name: "Links", value: document.links.length });
 
@@ -41,11 +41,11 @@ export const page = {
       value: words.getWordsOnPage().length,
     });
 
-    result.push({
-      name: "Words on this page",
-      value: words.getAWordCountTable(words.getWordsOnPage()),
-      display: "table",
-    });
+    // result.push({
+    //   name: "Words on this page",
+    //   value: words.getAWordCountTable(words.getWordsOnPage()),
+    //   display: "table",
+    // });
 
     return result;
   },
