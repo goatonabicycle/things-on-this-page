@@ -11,6 +11,15 @@ export const thingsPopup = {
       .join("");
   },
 
+  renderThingsSection() {
+    const thingsOnThisPage = page.getThingsOnThisPage();
+    const container = document.getElementById("things");
+
+    container.innerHTML = thingsOnThisPage
+      .map((item) => `<div class="item">${item.name}: ${item.value}</div>`)
+      .join("");
+  },
+
   makeSection(title, data, sectionId) {
     let result = `
       <div class="title">${title}</div>      

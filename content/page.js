@@ -41,11 +41,11 @@ export const page = {
       value: words.getWordsOnPage().length,
     });
 
-    // result.push({
-    //   name: "Words on this page",
-    //   value: words.getAWordCountTable(words.getWordsOnPage()),
-    //   display: "table",
-    // });
+    result.push({
+      name: "Words on this page",
+      value: words.getAWordCountTable(words.getWordsOnPage()),
+      display: "table",
+    });
 
     return result;
   },
