@@ -22,5 +22,10 @@
       "type": "module",
       "run_at": "document_idle"
     }
-  ]
+  ],
+  "permissions": ["webRequest", "storage"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "/src/background.js"
+  }
 }

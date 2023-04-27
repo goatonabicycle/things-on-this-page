@@ -49,7 +49,9 @@
 }
 
 .things-popup-contain th, .things-popup-contain td {
-  padding: 5px;
+  padding: 5px;  
+  overflow: hidden;
+  max-width: 40px;
   text-align: left;
 }
 

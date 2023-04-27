@@ -1,22 +1,24 @@
 # Things On This Page
 
-Todo:
+This will get interesting information about the page that you're currently on.
 
-- Close button
-- Reset button
-- Categories
-- Options.
+## How do I get it running?
 
-Things I might have access to:
+```
+vite
+```
 
-x Number of clicks.
-x Pixels scrolled.
-x Number of images on this page.
-x Number of html elements.
-x Time since page load
+### Todo:
 
+- UI
+
+  - Close button
+  - Reset button
+  - Categories
+  - Options.
+
+- Number of requests.
 - Most used color on this page.
-
 - Top X words on this page.
 - Most used word on this page.
 - Most used character on this page.
@@ -25,8 +27,4 @@ x Time since page load
 - Most pressed key.
 - Cursor quadrant spent most time in.
 - Number of cookies this website has access to?
-
-- Render the actuall average element color as a block.
 - Change "seconds since load" to render minutes, hours.
-
-Use webpack. Things are already getting crazy.
