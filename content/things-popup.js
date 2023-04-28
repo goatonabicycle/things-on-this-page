@@ -1,5 +1,6 @@
 import { page } from "./page.js";
 import { mouse } from "./mouse.js";
+import { requestTracking } from "./requests.js";
 
 export const thingsPopup = {
   renderMouseSection() {
@@ -20,6 +21,15 @@ export const thingsPopup = {
       .join("");
   },
 
+  renderRequestsSection() {
+    const requestData = requestTracking.getCurrentData();
+    const container = document.getElementById("requests");
+
+    container.innerHTML = requestData
+      .map((item) => `<div class="item">${item.name}: ${item.value}</div>`)
+      .join("");
+  },
+
   makeSection(title, data, sectionId) {
     let result = `
       <div class="title">${title}</div>      
@@ -34,6 +44,7 @@ export const thingsPopup = {
   render() {
     const thingsOnThisPage = page.getThingsOnThisPage();
     const mouseData = mouse.getCurrentData();
+    const requestData = requestTracking.getCurrentData();
 
     const container =
       document.getElementById("things-popup") || document.createElement("div");
@@ -45,12 +56,20 @@ export const thingsPopup = {
       thingsOnThisPage,
       "things"
     );
+
     const mouseSection = this.makeSection(
       "Things You Have Done",
       mouseData,
       "mouse"
     );
-    container.innerHTML = `${thingsSection}${mouseSection}`;
+
+    const requestsSection = this.makeSection(
+      "Requests that have been made",
+      requestData,
+      "requests"
+    );
+
+    container.innerHTML = `${thingsSection}${mouseSection}${requestsSection}`;
 
     if (!document.body.contains(container)) {
       document.body.appendChild(container);

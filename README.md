@@ -16,6 +16,7 @@ vite
   - Reset button
   - Categories
   - Options.
+  - Explanation system. If I hover over things there could be a bit of a description about how that things is calculated.
 
 - Number of requests.
 - Most used color on this page.
