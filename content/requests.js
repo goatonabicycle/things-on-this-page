@@ -36,8 +36,19 @@ export const requestTracking = {
   getCurrentData() {
     const requestData = [
       { name: "Total requests", value: this.requestCount },
-      { name: "Requests by Type", value: this.requestsByType },
+      {
+        name: "Requests by Type",
+        value: this.formatRequestData(this.requestsByType),
+      },
     ];
     return requestData;
+  },
+
+  formatRequestData(requestData) {
+    let formattedData = "";
+    for (const [name, value] of Object.entries(requestData)) {
+      formattedData += `<div>${name}: ${value}</div>`;
+    }
+    return formattedData;
   },
 };

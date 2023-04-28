@@ -7,27 +7,30 @@ export const thingsPopup = {
     const mouseData = mouse.getCurrentData();
     const container = document.getElementById("mouse");
 
-    container.innerHTML = mouseData
-      .map((item) => `<div class="item">${item.name}: ${item.value}</div>`)
-      .join("");
+    if (container)
+      container.innerHTML = mouseData
+        .map((item) => `<div class="item">${item.name}: ${item.value}</div>`)
+        .join("");
   },
 
   renderThingsSection() {
     const thingsOnThisPage = page.getThingsOnThisPage();
     const container = document.getElementById("things");
 
-    container.innerHTML = thingsOnThisPage
-      .map((item) => `<div class="item">${item.name}: ${item.value}</div>`)
-      .join("");
+    if (container)
+      container.innerHTML = thingsOnThisPage
+        .map((item) => `<div class="item">${item.name}: ${item.value}</div>`)
+        .join("");
   },
 
   renderRequestsSection() {
     const requestData = requestTracking.getCurrentData();
     const container = document.getElementById("requests");
 
-    container.innerHTML = requestData
-      .map((item) => `<div class="item">${item.name}: ${item.value}</div>`)
-      .join("");
+    if (container)
+      container.innerHTML = requestData
+        .map((item) => `<div class="item">${item.name}: ${item.value}</div>`)
+        .join("");
   },
 
   makeSection(title, data, sectionId) {
