@@ -78,3 +78,7 @@ vite
 - History items?
 - User's keyboard layout
 - Geolocation
+
+## Special cases:
+
+- Twitter/Youtube/Spotify/Soundcloud/Bandcamp/Facebook etc. might have specific interesting things about them.
