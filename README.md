@@ -8,10 +8,9 @@ This will get interesting information about the page that you're currently on.
 vite
 ```
 
-### Todo:
+## Todo:
 
 - UI
-
   - This should be a subtle little icon somewhere. Clicking on it should then show the main popup.
   - Close button
   - Reset button
@@ -19,14 +18,63 @@ vite
   - Options.
   - Explanation system. If I hover over things there could be a bit of a description about how that things is calculated.
 
+# Info ideas to explore:
+
+## Mouse (Change this to "input" to cover key press events as well?)
+
+- Cursor quadrant spent most time in.
+- Mouse click and movement heatmap.
+- Add directional information to the currrent total scroll distance.
+- Mouse clicks can be more specific (middle, right.)
+- Idle time.
+- Most pressed key
+
+## Page meta
+
+- Social media presence.
 - Number of requests.
+- Metadata: Author, keywords, description, title, etc.
+- Cookie usage
+- External vs Internal links
+- Change "seconds since load" to render minutes, hours.
+- IP address of the main server.
+- IP addresses of the resources loaded?
+- Broken links.
+- Server locality
+- Colour pallete.
+- Fonts used.
+- Languages
+- Site history (assuming there's some sort of API. Waybackmachine?)
+- WHOIS information.
+- Tech stack
+- Favicon
 - Most used color on this page.
-- Top X words on this page.
-- Most used word on this page.
+
+## Words
+
+- Number of times the word [configure some word] is used on this page.
 - Most used character on this page.
 - Number of fullstops on this page.
-- Number of times the word [] is used on this page.
-- Most pressed key.
-- Cursor quadrant spent most time in.
-- Number of cookies this website has access to?
-- Change "seconds since load" to render minutes, hours.
+- Page load time.
+- Longest and shortest words.
+- Page mood (text analysis)
+- Average word length
+- Most common word pairs
+- Speech distribution (nouns vs verbs vs adjectives)
+- Text complexity
+- Sentiment analysis
+- Alt text analysis
+- Average/Longest sentence length
+- Paragraph count
+
+## Stuff that websites/extensions can see about you: (Scary fingerprinting stuff)
+
+- Local storage usage.
+- OS
+- Browser name and version
+- User-agent string
+- Language
+- Number of open tabs?
+- History items?
+- User's keyboard layout
+- Geolocation
