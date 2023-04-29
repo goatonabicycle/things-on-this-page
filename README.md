@@ -12,6 +12,7 @@ vite
 
 - UI
 
+  - This should be a subtle little icon somewhere. Clicking on it should then show the main popup.
   - Close button
   - Reset button
   - Categories

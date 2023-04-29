@@ -84,7 +84,7 @@ export const words = {
 
     const counts = this.countWords(words);
     const sortedCountsArray = this.sortCountsArray(counts);
-    const table = this.createTable(sortedCountsArray);
+    const table = this.createTable(sortedCountsArray.slice(0, 30));
 
     return table.outerHTML;
   },

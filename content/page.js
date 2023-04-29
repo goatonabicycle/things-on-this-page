@@ -42,7 +42,7 @@ export const page = {
     });
 
     result.push({
-      name: "Words on this page",
+      name: "Top 30 words on this page",
       value: words.getAWordCountTable(words.getWordsOnPage()),
       display: "table",
     });
