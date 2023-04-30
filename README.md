@@ -22,7 +22,8 @@ vite
 
 ## Mouse (Change this to "input" to cover key press events as well?)
 
-- Cursor quadrant spent most time in.
+x Cursor quadrant spent most time in.
+
 - Mouse click and movement heatmap.
 - Add directional information to the currrent total scroll distance.
 - Mouse clicks can be more specific (middle, right.)

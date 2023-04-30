@@ -24,11 +24,11 @@ export const mouse = {
 
     // This is the quadrant mechanism
     const currentTime = new Date().getTime();
-    const currentQuadrant = this.getQuadrant(event.clientX, event.clientY);
+    const currentQuadrant = this.getQuadrant(e.clientX, e.clientY);
 
     if (this.lastQuadrant !== null) {
-      const timeSpent = currentTime - this.lastTime;
-      this.updateQuadrantTimes(this.lastQuadrant, timeSpent);
+      this.quadrantTimes[this.lastQuadrant] += currentTime - this.lastTime;
+      this.totalQuadrantTime += currentTime - this.lastTime;
     }
 
     this.lastQuadrant = currentQuadrant;
@@ -55,16 +55,50 @@ export const mouse = {
     return x < width / 2 ? (y < height / 2 ? 0 : 2) : y < height / 2 ? 1 : 3;
   },
 
-  updateQuadrantTimes(quadrant, time) {
-    this.quadrantTimes[quadrant] += time;
-    this.totalQuadrantTime += time;
+  updateQuadrantPercentages() {
+    const currentTime = new Date().getTime();
+    if (this.lastQuadrant !== null) {
+      this.quadrantTimes[this.lastQuadrant] += currentTime - this.lastTime;
+      this.totalQuadrantTime += currentTime - this.lastTime;
+    }
+    this.lastTime = currentTime;
   },
 
-  getCurrentData() {
+  renderQuadrantPercentages() {
     const quadrantPercentages = this.quadrantTimes.map((time) =>
       Math.round((time / this.totalQuadrantTime) * 100)
     );
 
+    const html = `
+      <div id="quadrant-percentage-container">
+        ${this.renderQuadrantBlock(0, quadrantPercentages[0])}
+        ${this.renderQuadrantBlock(1, quadrantPercentages[1])}
+        ${this.renderQuadrantBlock(2, quadrantPercentages[2])}
+        ${this.renderQuadrantBlock(3, quadrantPercentages[3])}
+      </div>
+    `;
+    return html;
+  },
+
+  renderQuadrantBlock(index, percentage) {
+    const row = index < 2 ? 0 : 1;
+    const column = index % 2 === 0 ? 0 : 1;
+    const bgColor = [0, 128, 120].join(",");
+    const alpha = percentage / 100;
+    const top = row * 50;
+    const left = column * 50;
+
+    return `
+      <div class="quadrant-block" style="top: ${top}%; left: ${left}%;">
+        <div class="quadrant-block-inside" style="background-color: rgba(${bgColor}, ${alpha}); ">
+          <span class="quadrant-block-text" style="">${percentage}%</span>
+        </div>
+      </div>
+    `;
+  },
+
+  getCurrentData() {
+    this.updateQuadrantPercentages();
     const mouseData = [
       { name: "Mouse clicks", value: this.numberOfClicks },
       { name: "Mouse scrolled", value: `${Math.round(this.totalOffset)}px` },
@@ -74,7 +108,7 @@ export const mouse = {
       },
       {
         name: "Percentage spent in quadrant",
-        value: `${quadrantPercentages}`, // Todo: Render this in a cool little block?
+        value: this.renderQuadrantPercentages(),
       },
     ];
     return mouseData;

@@ -7,6 +7,7 @@ mouse.monitor();
 
 function updateEverySecond() {
   thingsPopup.renderThingsSection();
+  thingsPopup.renderMouseSection();
   timeCounter.updateTimeCounter();
   setTimeout(updateEverySecond, 1000);
 }
