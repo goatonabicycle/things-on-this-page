@@ -128,9 +128,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  font-weight: bold;
-  color: #000;
+  font-size: 18px;  
+  color: rgb(30, 153, 210);
 }
 
 .things-popup-contain.things-popup-open + .things-popup-icon:after {
