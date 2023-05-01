@@ -35,13 +35,33 @@ export const thingsPopup = {
 
   makeSection(title, data, sectionId) {
     let result = `
-      <div class="title">${title}</div>      
-      <div id="${sectionId}" class="content">
-        ${data.map((item) => `<div>${item.name}: ${item.value}</div>`).join("")}
+      <div class="section">
+        <div class="title" data-section="${sectionId}">${title}</div>
+        <div id="${sectionId}" class="content hidden">
+          ${data
+            .map((item) => `<div>${item.name}: ${item.value}</div>`)
+            .join("")}
+        </div>
       </div>
     `;
 
     return result;
+  },
+
+  toggleSection(event) {
+    const sectionId = event.target.dataset.section;
+    const content = document.getElementById(sectionId);
+    content.classList.toggle("hidden");
+    event.target.classList.toggle("expanded");
+  },
+
+  addEventListeners() {
+    const sectionTitles = document.querySelectorAll(
+      ".things-popup-contain .title"
+    );
+    sectionTitles.forEach((title) => {
+      title.addEventListener("click", this.toggleSection);
+    });
   },
 
   togglePopup() {
@@ -103,11 +123,11 @@ export const thingsPopup = {
     container.innerHTML = `${thingsSection}${mouseSection}${requestsSection}`;
 
     if (!document.body.contains(container)) {
-      container.style.display = "none"; // Add this line to hide the container initially
+      container.style.display = "none";
       document.body.appendChild(container);
+      this.addEventListeners();
     }
 
-    // Add the icon to the DOM if it's not already there
     const icon =
       document.getElementById("things-popup-icon") || this.createIcon();
     if (!document.body.contains(icon)) {

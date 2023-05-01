@@ -9,7 +9,7 @@
   font-size: 14px;
   background-color: white;
   color: black;
-  border: 1px solid rgb(12, 9, 9);
+  border: 1px solid rgb(30, 153, 210);
   border-radius: 8px;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
   overflow-y: auto;
@@ -32,7 +32,7 @@
   font-weight: bold;
   margin-bottom: 8px;
   text-align: center;
-  color: chocolate;
+  color: rgb(30, 153, 210);
 }
 
 .things-popup-contain .content {
@@ -135,4 +135,32 @@
 
 .things-popup-contain.things-popup-open + .things-popup-icon:after {
   content: "x";
+}
+
+.things-popup-contain .title {
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-align: center;
+  color: rgb(30, 153, 210);
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  padding-right: 20px;
+}
+
+.things-popup-contain .title:before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%) rotate(-45deg);
+  border: solid rgb(30, 153, 210);
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.things-popup-contain .title.expanded:before {
+  transform: translateY(-50%) rotate(45deg);
 }
