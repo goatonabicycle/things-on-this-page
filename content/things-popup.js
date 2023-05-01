@@ -44,6 +44,34 @@ export const thingsPopup = {
     return result;
   },
 
+  togglePopup() {
+    const container = document.getElementById("things-popup");
+    if (container) {
+      if (container.classList.contains("things-popup-open")) {
+        container.classList.remove("things-popup-open");
+        setTimeout(() => {
+          container.style.display = "none";
+        }, 300);
+      } else {
+        container.style.display = "block";
+        setTimeout(() => {
+          container.classList.add("things-popup-open");
+        }, 0);
+      }
+    }
+  },
+
+  createIcon() {
+    const icon = document.createElement("div");
+    icon.id = "things-popup-icon";
+    icon.className = "things-popup-icon";
+    icon.addEventListener("click", () => {
+      icon.classList.toggle("open");
+      this.togglePopup();
+    });
+    return icon;
+  },
+
   render() {
     const thingsOnThisPage = page.getThingsOnThisPage();
     const mouseData = mouse.getCurrentData();
@@ -75,7 +103,15 @@ export const thingsPopup = {
     container.innerHTML = `${thingsSection}${mouseSection}${requestsSection}`;
 
     if (!document.body.contains(container)) {
+      container.style.display = "none"; // Add this line to hide the container initially
       document.body.appendChild(container);
+    }
+
+    // Add the icon to the DOM if it's not already there
+    const icon =
+      document.getElementById("things-popup-icon") || this.createIcon();
+    if (!document.body.contains(icon)) {
+      document.body.appendChild(icon);
     }
   },
 };
