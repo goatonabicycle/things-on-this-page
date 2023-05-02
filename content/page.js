@@ -1,4 +1,5 @@
 import { words } from "./words.js";
+import { color } from "./colors.js";
 
 export const page = {
   getThingsOnThisPage() {
@@ -45,6 +46,11 @@ export const page = {
       name: "Top 30 words on this page",
       value: words.getAWordCountTable(words.getWordsOnPage()),
       display: "table",
+    });
+
+    result.push({
+      name: "Colour Pallete",
+      value: color.getColorPalette(),
     });
 
     return result;

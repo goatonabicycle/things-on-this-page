@@ -11,9 +11,8 @@ vite
 ## Todo:
 
 - UI
-  - This should be a subtle little icon somewhere. Clicking on it should then show the main popup.
-  - Close button
-  - Reset button
+  x This should be a subtle little icon somewhere. Clicking on it should then show the main popup.
+  x Close button
   - Categories
   - Options.
   - Explanation system. If I hover over things there could be a bit of a description about how that things is calculated.
