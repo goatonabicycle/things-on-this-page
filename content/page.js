@@ -48,11 +48,6 @@ export const page = {
       display: "table",
     });
 
-    result.push({
-      name: "Colour Pallete",
-      value: color.getColorPalette(),
-    });
-
     return result;
   },
 };
