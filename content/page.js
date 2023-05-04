@@ -59,6 +59,14 @@ export const page = {
       value: words.getLongestWord(wordsOnThisPage),
     });
 
+    result.push({
+      name: "Character Distribution Map",
+      value: words.createCharDistTable(
+        words.characterDistributionMap(wordsOnThisPage)
+      ),
+      display: "table",
+    });
+
     return result;
   },
 };
