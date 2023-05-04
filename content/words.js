@@ -15,6 +15,32 @@ export const words = {
     return words;
   },
 
+  getAverageWordLength(words) {
+    if (words.length === 0) {
+      return 0;
+    }
+
+    const totalLength = words.reduce((sum, word) => sum + word.length, 0);
+    const averageLength = Math.round(totalLength / words.length);
+    return averageLength;
+  },
+
+  getLongestWord(words) {
+    if (words.length === 0) {
+      return "";
+    }
+
+    let longestWord = words[0];
+
+    for (let i = 1; i < words.length; i++) {
+      if (words[i].length > longestWord.length) {
+        longestWord = words[i];
+      }
+    }
+
+    return longestWord;
+  },
+
   countWords(words) {
     const counts = new Map();
 

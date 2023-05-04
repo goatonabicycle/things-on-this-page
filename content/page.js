@@ -1,5 +1,4 @@
 import { words } from "./words.js";
-import { color } from "./colors.js";
 
 export const page = {
   getThingsOnThisPage() {
@@ -37,15 +36,27 @@ export const page = {
       name: "Total number of characters",
       value: document.body.innerHTML.length,
     });
+
+    let wordsOnThisPage = words.getWordsOnPage();
     result.push({
       name: "Number of words on Page",
-      value: words.getWordsOnPage().length,
+      value: wordsOnThisPage.length,
     });
 
     result.push({
       name: "Top 30 words on this page",
-      value: words.getAWordCountTable(words.getWordsOnPage()),
+      value: words.getAWordCountTable(wordsOnThisPage),
       display: "table",
+    });
+
+    result.push({
+      name: "Average word length",
+      value: words.getAverageWordLength(wordsOnThisPage),
+    });
+
+    result.push({
+      name: "Longest word",
+      value: words.getLongestWord(wordsOnThisPage),
     });
 
     return result;
