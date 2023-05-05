@@ -1,8 +1,11 @@
 export const words = {
   getWordsOnPage() {
-    const thingsPopup = document.getElementById("things-popup");
+    const thingsPopup = document.getElementById("things-popup") || {};
+
+    console.log({ thingsPopup });
     if (!thingsPopup) return [];
 
+    console.log(thingsPopup);
     // Get all the text on the page, excluding the text in the popup
     const everything = document.body.innerText.replace(
       thingsPopup.innerText,
@@ -12,6 +15,7 @@ export const words = {
     // Split the text into words using a regular expression
     const words = everything.match(/[\w]|[^\s\w]/g) || [];
 
+    console.log({ words });
     return words;
   },
 

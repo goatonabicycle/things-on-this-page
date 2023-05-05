@@ -32,14 +32,21 @@ export const page = {
     });
     result.push({ name: "Links", value: document.links.length });
 
+    return result;
+  },
+
+  getWordThings() {
+    const result = [];
+
+    let wordsOnThisPage = words.getWordsOnPage();
+    console.log({ wordsOnThisPage });
     result.push({
       name: "Total number of characters",
       value: document.body.innerHTML.length,
     });
 
-    let wordsOnThisPage = words.getWordsOnPage();
     result.push({
-      name: "Number of words on Page",
+      name: "Number of words on page",
       value: wordsOnThisPage.length,
     });
 
@@ -60,7 +67,7 @@ export const page = {
     });
 
     result.push({
-      name: "Character Distribution Map",
+      name: "Character distribution map",
       value: words.createCharDistTable(
         words.characterDistributionMap(wordsOnThisPage)
       ),

@@ -93,20 +93,24 @@ export const thingsPopup = {
   },
 
   render() {
-    const thingsOnThisPage = page.getThingsOnThisPage();
-    const mouseData = mouse.getCurrentData();
-    const requestData = requestTracking.getCurrentData();
-
     const container =
       document.getElementById("things-popup") || document.createElement("div");
     container.id = "things-popup";
     container.className = "things-popup-contain";
 
+    const thingsOnThisPage = page.getThingsOnThisPage();
+    const wordsOnThisPage = page.getWordThings();
+    console.log({ wordsOnThisPage });
+    const mouseData = mouse.getCurrentData();
+    const requestData = requestTracking.getCurrentData();
+
     const thingsSection = this.makeSection(
-      "Things On This Page",
+      "Page things",
       thingsOnThisPage,
       "things"
     );
+
+    const wordsSection = this.makeSection("Words", wordsOnThisPage, "words");
 
     const mouseSection = this.makeSection(
       "Things You Have Done",
@@ -120,7 +124,7 @@ export const thingsPopup = {
       "requests"
     );
 
-    container.innerHTML = `${thingsSection}${mouseSection}${requestsSection}`;
+    container.innerHTML = `${thingsSection}${wordsSection}${mouseSection}${requestsSection}`;
 
     if (!document.body.contains(container)) {
       container.style.display = "none";
