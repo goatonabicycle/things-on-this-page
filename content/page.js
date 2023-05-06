@@ -74,6 +74,11 @@ export const page = {
       display: "table",
     });
 
+    result.push({
+      name: "Sentiments",
+      value: words.displaySentimentInfo(words.getSentiment(wordsOnThisPage)),
+    });
+
     return result;
   },
 };

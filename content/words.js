@@ -1,11 +1,13 @@
+import Sentiment from "sentiment";
+
+const sentiment = new Sentiment();
+
 export const words = {
   getWordsOnPage() {
     const thingsPopup = document.getElementById("things-popup") || {};
 
-    console.log({ thingsPopup });
     if (!thingsPopup) return [];
 
-    console.log(thingsPopup);
     // Get all the text on the page, excluding the text in the popup
     const everything = document.body.innerText.replace(
       thingsPopup.innerText,
@@ -13,9 +15,8 @@ export const words = {
     );
 
     // Split the text into words using a regular expression
-    const words = everything.match(/[\w]|[^\s\w]/g) || [];
+    const words = everything.match(/[a-zA-Z]+/g) || [];
 
-    console.log({ words });
     return words;
   },
 
@@ -53,6 +54,42 @@ export const words = {
       }, {});
 
     return sortedCharDistMap;
+  },
+
+  getSentiment(words) {
+    const result = sentiment.analyze(words.join(" "));
+    return result;
+  },
+
+  displaySentimentInfo(sentimentResult) {
+    const { score, positive, negative } = sentimentResult;
+
+    // Determine the overall sentiment
+    let overallFeeling = "neutral";
+    if (score > 0) {
+      overallFeeling = "positive";
+    } else if (score < 0) {
+      overallFeeling = "negative";
+    }
+
+    const displayWordList = (wordList) => {
+      const uniqueSortedWordList = Array.from(
+        new Set(wordList.map((wordObject) => wordObject))
+      ).sort();
+      return uniqueSortedWordList.join(", ");
+    };
+
+    const output = `  
+    <br />Overall feeling: ${overallFeeling}
+    <br />Positive words: ${
+      positive.length > 0 ? displayWordList(positive) : "None"
+    }
+    <br />Negative words: ${
+      negative.length > 0 ? displayWordList(negative) : "None"
+    }
+    `;
+
+    return output;
   },
 
   getLongestWord(words) {
