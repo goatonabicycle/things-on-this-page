@@ -8,9 +8,7 @@ export const thingsPopup = {
     const container = document.getElementById("mouse");
 
     if (container)
-      container.innerHTML = mouseData
-        .map((item) => `<div class="item">${item.name}: ${item.value}</div>`)
-        .join("");
+      container.innerHTML = mouseData.map(this.contentRender).join("");
   },
 
   renderThingsSection() {
@@ -18,9 +16,7 @@ export const thingsPopup = {
     const container = document.getElementById("things");
 
     if (container)
-      container.innerHTML = thingsOnThisPage
-        .map((item) => `<div class="item">${item.name}: ${item.value}</div>`)
-        .join("");
+      container.innerHTML = thingsOnThisPage.map(this.contentRender).join("");
   },
 
   renderRequestsSection() {
@@ -28,19 +24,22 @@ export const thingsPopup = {
     const container = document.getElementById("requests");
 
     if (container)
-      container.innerHTML = requestData
-        .map((item) => `<div class="item">${item.name}: ${item.value}</div>`)
-        .join("");
+      container.innerHTML = requestData.map(this.contentRender).join("");
+  },
+
+  contentRender(item) {
+    return `<div class="item">
+      <span class='item-name'>${item.name}:</span> 
+      <span class='item-value'>${item.value}</span> 
+    </div>`;
   },
 
   makeSection(title, data, sectionId) {
     let result = `
       <div class="section">
-        <div class="title" data-section="${sectionId}">${title}</div>
-        <div id="${sectionId}" class="content hidden">
-          ${data
-            .map((item) => `<div>${item.name}: ${item.value}</div>`)
-            .join("")}
+        <div class="section-title" data-section="${sectionId}">${title}</div>
+        <div id="${sectionId}" class="section-content hidden">
+          ${data.map(this.contentRender).join("")}
         </div>
       </div>
     `;
@@ -57,7 +56,7 @@ export const thingsPopup = {
 
   addEventListeners() {
     const sectionTitles = document.querySelectorAll(
-      ".things-popup-contain .title"
+      ".things-popup-contain .section-title"
     );
     sectionTitles.forEach((title) => {
       title.addEventListener("click", this.toggleSection);

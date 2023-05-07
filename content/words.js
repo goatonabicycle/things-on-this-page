@@ -80,14 +80,13 @@ export const words = {
     };
 
     const output = `  
-    <br />Overall feeling: ${overallFeeling}
-    <br />Positive words: ${
+    <div>Overall feeling: ${overallFeeling} </div>
+    <div>Positive words: ${
       positive.length > 0 ? displayWordList(positive) : "None"
-    }
-    <br />Negative words: ${
+    }</div>
+    <div>Negative words: ${
       negative.length > 0 ? displayWordList(negative) : "None"
-    }
-    `;
+    }</div>`;
 
     return output;
   },
