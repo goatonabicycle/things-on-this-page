@@ -74,9 +74,10 @@ export const page = {
       display: "table",
     });
 
+    let sentiment = words.getSentiment(wordsOnThisPage);
     result.push({
       name: "Sentiments",
-      value: words.displaySentimentInfo(words.getSentiment(wordsOnThisPage)),
+      value: words.getSentimentDisplay(sentiment),
     });
 
     return result;

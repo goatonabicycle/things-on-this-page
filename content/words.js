@@ -61,7 +61,7 @@ export const words = {
     return result;
   },
 
-  displaySentimentInfo(sentimentResult) {
+  getSentimentDisplay(sentimentResult) {
     const { score, positive, negative } = sentimentResult;
 
     // Determine the overall sentiment
@@ -80,13 +80,14 @@ export const words = {
     };
 
     const output = `  
-    <div>Overall feeling: ${overallFeeling} </div>
-    <div>Positive words: ${
+    <div><span class='item-name'>Overall feeling:</span>
+    <span class='item-value'> ${overallFeeling}</span></div>
+    <div><span class='item-name'>Positive words:</span><span class='item-value'> ${
       positive.length > 0 ? displayWordList(positive) : "None"
-    }</div>
-    <div>Negative words: ${
+    }</span></div>
+    <div><span class='item-name'>Negative words:</span><span class='item-value'> ${
       negative.length > 0 ? displayWordList(negative) : "None"
-    }</div>`;
+    }</span></div>`;
 
     return output;
   },
