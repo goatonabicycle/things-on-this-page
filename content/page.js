@@ -32,6 +32,13 @@ export const page = {
     });
     result.push({ name: "Links", value: document.links.length });
 
+    const timing = window.performance.timing;
+    const loadTime = (timing.loadEventEnd - timing.navigationStart) / 1000;
+    result.push({
+      name: "Page load time",
+      value: loadTime + "s",
+    });
+
     return result;
   },
 
