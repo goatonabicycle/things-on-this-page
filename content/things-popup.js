@@ -20,11 +20,13 @@ export const thingsPopup = {
   },
 
   renderRequestsSection() {
-    const requestData = requestTracking.getCurrentData();
-    const container = document.getElementById("requests");
+    import("./requests.js").then((module) => {
+      const requestData = module.requestTracking.getCurrentData();
+      const container = document.getElementById("requests");
 
-    if (container)
-      container.innerHTML = requestData.map(this.contentRender).join("");
+      if (container)
+        container.innerHTML = requestData.map(this.contentRender).join("");
+    });
   },
 
   contentRender(item) {

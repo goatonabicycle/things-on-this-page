@@ -1,5 +1,3 @@
-import { thingsPopup } from "./things-popup";
-
 export const mouse = {
   numberOfClicks: 0,
   quadrantTimes: [0, 0, 0, 0],
@@ -33,20 +31,16 @@ export const mouse = {
 
     this.lastQuadrant = currentQuadrant;
     this.lastTime = currentTime;
-
-    thingsPopup.renderMouseSection();
   },
 
   handleScroll() {
     const addedOffset = Math.abs(this.currOffset - window.pageYOffset);
     this.totalOffset += addedOffset;
     this.currOffset = window.pageYOffset;
-    thingsPopup.renderMouseSection();
   },
 
   handleClick() {
     this.numberOfClicks++;
-    thingsPopup.renderMouseSection();
   },
 
   getQuadrant(x, y) {

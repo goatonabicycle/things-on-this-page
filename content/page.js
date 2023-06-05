@@ -27,6 +27,11 @@ export const page = {
           document.body.clientWidth) + "px",
     });
     result.push({
+      name: "Fonts on this page",
+      value: this.getFonts().join(", "),
+      display: "table",
+    });
+    result.push({
       name: "Seconds since initial load",
       value: "<span id='time-since-load'></span>",
     });
@@ -88,5 +93,28 @@ export const page = {
     });
 
     return result;
+  },
+
+  getFonts() {
+    let fonts = new Set(); // We use a Set to avoid duplicates
+    let elements = document.querySelectorAll("body *:not(.things-popup *)"); // Get all elements excluding ones inside 'things-popup'
+
+    for (let i = 0; i < elements.length; i++) {
+      let computedStyle = window.getComputedStyle(elements[i]);
+      let font = computedStyle.getPropertyValue("font-family");
+
+      // There can be multiple fonts defined, we split them
+      let fontList = font.split(",");
+
+      for (let f of fontList) {
+        // Trim the font name and add it to the set
+        fonts.add(`<span style='font-family:${f.trim()}'>${f.trim()}</span>`);
+      }
+    }
+
+    console.log({ fonts });
+
+    // Convert the set to an array and return it
+    return Array.from(fonts);
   },
 };

@@ -1,5 +1,3 @@
-import { thingsPopup } from "./things-popup";
-
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.message === "Request") {
     requestTracking.requestCount++;
@@ -10,7 +8,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       requestTracking.requestsByType[request.details.type] = 1;
     }
 
-    thingsPopup.renderRequestsSection();
+    import("./things-popup.js").then((module) => {
+      module.thingsPopup.renderRequestsSection();
+    });
+
     // Available types
     // "main_frame"
     // "sub_frame"
