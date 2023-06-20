@@ -101,7 +101,6 @@ export const thingsPopup = {
 
     const thingsOnThisPage = page.getThingsOnThisPage();
     const wordsOnThisPage = page.getWordThings();
-    console.log({ wordsOnThisPage });
     const mouseData = mouse.getCurrentData();
     const requestData = requestTracking.getCurrentData();
 
