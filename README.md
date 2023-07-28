@@ -1,6 +1,6 @@
 # Things On This Page
 
-This will get interesting information about the page that you're currently on.
+This will get interesting information about the page that you're currently on. 
 
 ## How do I get it running?
 
@@ -11,17 +11,12 @@ vite
 ## Todo:
 
 - UI
-  x This should be a subtle little icon somewhere. Clicking on it should then show the main popup.
-  x Close button
-  - Categories
   - Options.
   - Explanation system. If I hover over things there could be a bit of a description about how that things is calculated.
 
 # Info ideas to explore:
 
 ## Mouse (Change this to "input" to cover key press events as well?)
-
-x Cursor quadrant spent most time in.
 
 - Mouse click and movement heatmap.
 - Add directional information to the currrent total scroll distance.
