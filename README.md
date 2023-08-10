@@ -1,6 +1,6 @@
 # Things On This Page
 
-This will get interesting information about the page that you're currently on. 
+This will get interesting information about the page that you're currently on. There's zero intention to track anything, rather, highlight what extensions and pages have access to.
 
 ## How do I get it running?
 
