@@ -1,79 +1,17 @@
 # Things On This Page
 
-This will get interesting information about the page that you're currently on. There's zero intention to track anything, rather, highlight what extensions and pages have access to.
+This extension answers two questions. 
+  1) "What can extensions see about me the things I browse?" 
+  2) What are the most interesting things about this page?
+
+This will get interesting information about the page that you're currently on. There's zero intention to track anything, rather, highlight what extensions have access to.
 
 ## How do I get it running?
 
 ```
-vite
+npx vite
 ```
 
-## Todo:
+## What will this be in the future? 
 
-- UI
-  - Options.
-  - Explanation system. If I hover over things there could be a bit of a description about how that things is calculated.
-
-# Info ideas to explore:
-
-## Mouse (Change this to "input" to cover key press events as well?)
-
-- Mouse click and movement heatmap.
-- Add directional information to the currrent total scroll distance.
-- Mouse clicks can be more specific (middle, right.)
-- Idle time.
-- Most pressed key
-
-## Page meta
-
-- Social media presence.
-- Number of requests.
-- Metadata: Author, keywords, description, title, etc.
-- Cookie usage
-- External vs Internal links
-- Change "seconds since load" to render minutes, hours.
-- IP address of the main server.
-- IP addresses of the resources loaded?
-- Broken links.
-- Server locality
-- Colour pallete.
-- Fonts used.
-- Languages
-- Site history (assuming there's some sort of API. Waybackmachine?)
-- WHOIS information.
-- Tech stack
-- Favicon
-- Most used color on this page.
-
-## Words
-
-- Number of times the word [configure some word] is used on this page.
-- Most used character on this page.
-- Number of fullstops on this page.
-- Page load time.
-- Longest and shortest words.
-- Page mood (text analysis)
-- Average word length
-- Most common word pairs
-- Speech distribution (nouns vs verbs vs adjectives)
-- Text complexity
-- Sentiment analysis
-- Alt text analysis
-- Average/Longest sentence length
-- Paragraph count
-
-## Stuff that websites/extensions can see about you: (Scary fingerprinting stuff)
-
-- Local storage usage.
-- OS
-- Browser name and version
-- User-agent string
-- Language
-- Number of open tabs?
-- History items?
-- User's keyboard layout
-- Geolocation
-
-## Special cases:
-
-- Twitter/Youtube/Spotify/Soundcloud/Bandcamp/Facebook etc. might have specific interesting things about them.
+I plan on adding many more things but this is ultimately just an interesting utility.
