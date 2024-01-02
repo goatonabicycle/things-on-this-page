@@ -9,10 +9,9 @@ export const words = {
     if (!thingsPopup) return [];
 
     // Get all the text on the page, excluding the text in the popup
-    const everything = document.body.innerText.replace(
-      thingsPopup.innerText,
-      ""
-    );
+    const everything = document.body.innerText
+      .replace(thingsPopup.innerText, "")
+      .toLowerCase();
 
     // Split the text into words using a regular expression
     const words = everything.match(/[a-zA-Z]+/g) || [];
@@ -128,18 +127,6 @@ export const words = {
     });
 
     return sortedCountsArray;
-  },
-
-  getAWordCountTable(words) {
-    if (!words || words.length === 0) {
-      return;
-    }
-
-    const counts = this.countWords(words);
-    const sortedCountsArray = this.sortCountsArray(counts);
-    const table = this.createTable(sortedCountsArray.slice(0, 30));
-
-    return table.outerHTML;
   },
 
   createTableRow(item1, item2) {
