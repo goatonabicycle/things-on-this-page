@@ -2,35 +2,38 @@ import Sentiment from "sentiment";
 
 const sentiment = new Sentiment();
 
+interface CharDistMap {
+  [char: string]: number;
+}
+
 export const words = {
-  getWordsOnPage() {
-    const thingsPopup = document.getElementById("things-popup") || {};
+  getWordsOnPage(): string[] {
+    const thingsPopup = document.getElementById("things-popup");
 
     if (!thingsPopup) return [];
 
-    // Get all the text on the page, excluding the text in the popup
-    const everything = document.body.innerText
-      .replace(thingsPopup.innerText, "")
-      .toLowerCase();
+    const everything =
+      document.body.textContent
+        ?.replace(thingsPopup.textContent ?? "", "")
+        .toLowerCase() ?? "";
 
-    // Split the text into words using a regular expression
-    const words = everything.match(/[a-zA-Z]+/g) || [];
+    const words: string[] = everything.match(/[a-zA-Z]+/g) ?? [];
 
     return words;
   },
 
-  getAverageWordLength(words) {
-    if (words.length === 0) {
-      return 0;
-    }
-
-    const totalLength = words.reduce((sum, word) => sum + word.length, 0);
-    const averageLength = Math.round(totalLength / words.length);
+  getAverageWordLength(words: string[]): number {
+    if (words.length === 0) return 0;
+    const totalLength: number = words.reduce(
+      (sum, word) => sum + word.length,
+      0
+    );
+    const averageLength: number = Math.round(totalLength / words.length);
     return averageLength;
   },
 
-  characterDistributionMap(words) {
-    const charDistMap = {};
+  characterDistributionMap(words: string[]): CharDistMap {
+    const charDistMap: CharDistMap = {};
 
     for (const word of words) {
       for (const char of word) {
@@ -55,12 +58,12 @@ export const words = {
     return sortedCharDistMap;
   },
 
-  getSentiment(words) {
+  getSentiment(words: string[]): Sentiment.AnalysisResult {
     const result = sentiment.analyze(words.join(" "));
     return result;
   },
 
-  getSentimentDisplay(sentimentResult) {
+  getSentimentDisplay(sentimentResult: Sentiment.AnalysisResult): string {
     const { score, positive, negative } = sentimentResult;
 
     // Determine the overall sentiment
@@ -91,7 +94,7 @@ export const words = {
     return output;
   },
 
-  getLongestWord(words) {
+  getLongestWord(words: string[]): string {
     if (words.length === 0) {
       return "";
     }
@@ -107,8 +110,8 @@ export const words = {
     return longestWord;
   },
 
-  countWords(words) {
-    const counts = new Map();
+  countWords(words: string[]): Map<string, number> {
+    const counts: Map<string, number> = new Map();
 
     for (const word of words) {
       const count = counts.get(word) || 0;
@@ -118,7 +121,7 @@ export const words = {
     return counts;
   },
 
-  sortCountsArray(counts) {
+  sortCountsArray(counts: Map<string, number>): Array<[string, number]> {
     const sortedCountsArray = Array.from(counts.entries()).sort((a, b) => {
       if (a[1] === b[1]) {
         return a[0].localeCompare(b[0]);
@@ -129,7 +132,7 @@ export const words = {
     return sortedCountsArray;
   },
 
-  createTableRow(item1, item2) {
+  createTableRow(item1: string, item2: string): HTMLTableRowElement {
     const tr = document.createElement("tr");
     const tdItem1 = document.createElement("td");
     const tdItem2 = document.createElement("td");
@@ -143,7 +146,11 @@ export const words = {
     return tr;
   },
 
-  createTable(sortedCountsArray, label1, label2) {
+  createTable(
+    sortedCountsArray: Array<[string, number]>,
+    label1: string,
+    label2: string
+  ): HTMLElement {
     const table = document.createElement("table");
     const thead = document.createElement("thead");
     const tbody = document.createElement("tbody");
@@ -169,18 +176,7 @@ export const words = {
     return table;
   },
 
-  sortCountsArray(counts) {
-    const sortedCountsArray = Array.from(counts.entries()).sort((a, b) => {
-      if (a[1] === b[1]) {
-        return a[0].localeCompare(b[0]);
-      }
-      return b[1] - a[1];
-    });
-
-    return sortedCountsArray;
-  },
-
-  getAWordCountTable(words) {
+  getAWordCountTable(words: string[]): string | void {
     if (!words || words.length === 0) {
       return;
     }
@@ -196,7 +192,7 @@ export const words = {
     return table.outerHTML;
   },
 
-  createCharDistTable(charDistMap) {
+  createCharDistTable(charDistMap: CharDistMap): string {
     const sortedCharDistArray = Object.entries(charDistMap).sort(
       (a, b) => b[1] - a[1] || a[0].localeCompare(b[0])
     );

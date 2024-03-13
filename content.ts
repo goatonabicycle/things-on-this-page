@@ -5,8 +5,9 @@ import { timeCounter } from "./content/time-counter";
 
 mouse.monitor();
 
-function updateEverySecond() {
+function updateEverySecond(): void {
   thingsPopup.renderThingsSection();
+
   thingsPopup.renderMouseSection();
   timeCounter.updateTimeCounter();
   setTimeout(updateEverySecond, 1000);

@@ -124,7 +124,7 @@ export const thingsPopup = {
       "requests"
     );
 
-    container.innerHTML = `${thingsSection}${wordsSection}${mouseSection}${requestsSection}`;
+    container.innerHTML = `${thingsSection}${wordsSection}${mouseSection}`;
 
     if (!document.body.contains(container)) {
       container.style.display = "none";

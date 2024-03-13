@@ -1,4 +1,4 @@
-import { words } from "./words.js";
+import { words } from "./words.ts";
 
 export const page = {
   getThingsOnThisPage() {
@@ -48,7 +48,7 @@ export const page = {
 
   getWordThings() {
     const result = [];
-
+    console.log("Getting words on this page!");
     let wordsOnThisPage = words.getWordsOnPage();
     console.log({ wordsOnThisPage });
     result.push({
