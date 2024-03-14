@@ -47,13 +47,12 @@ export const words = {
       }
     }
 
-    // Sort the character distribution map by most used characters
     const sortedCharDistMap = Object.entries(charDistMap)
       .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-      .reduce((acc, [char, count]) => {
+      .reduce((acc: { [key: string]: number }, [char, count]) => {
         acc[char] = count;
         return acc;
-      }, {});
+      }, {} as CharDistMap);
 
     return sortedCharDistMap;
   },
@@ -74,10 +73,8 @@ export const words = {
       overallFeeling = "negative";
     }
 
-    const displayWordList = (wordList) => {
-      const uniqueSortedWordList = Array.from(
-        new Set(wordList.map((wordObject) => wordObject))
-      ).sort();
+    const displayWordList = (wordList: string[]): string => {
+      const uniqueSortedWordList = Array.from(new Set(wordList)).sort();
       return uniqueSortedWordList.join(", ");
     };
 
@@ -168,7 +165,7 @@ export const words = {
     table.appendChild(thead);
 
     for (const [item1, item2] of sortedCountsArray) {
-      const trBody = this.createTableRow(item1, item2);
+      const trBody = this.createTableRow(item1, item2.toString());
       tbody.appendChild(trBody);
     }
 
