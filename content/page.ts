@@ -1,30 +1,39 @@
-import { words } from "./words.ts";
+import { words } from "./words";
+
+interface ThingOnPage {
+  name: string;
+  value: string;
+  display?: "table";
+}
 
 export const page = {
-  getThingsOnThisPage() {
-    const result = [];
+  getThingsOnThisPage(): ThingOnPage[] {
+    const result: ThingOnPage[] = [];
 
-    result.push({ name: "Images", value: document.images.length });
-    result.push({ name: "Scripts", value: document.scripts.length });
-    result.push({ name: "Style Sheets", value: document.styleSheets.length });
-    result.push({ name: "Links", value: document.links.length });
+    result.push({ name: "Images", value: document.images.length.toString() });
+    result.push({ name: "Scripts", value: document.scripts.length.toString() });
+    result.push({
+      name: "Style Sheets",
+      value: document.styleSheets.length.toString(),
+    });
+    result.push({ name: "Links", value: document.links.length.toString() });
     result.push({
       name: "Page height",
-      value:
-        Math.max(
-          document.body.scrollHeight,
-          document.body.offsetHeight,
-          document.documentElement.clientHeight,
-          document.documentElement.scrollHeight,
-          document.documentElement.offsetHeight
-        ) + "px",
+      value: `${Math.max(
+        document.body.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.clientHeight,
+        document.documentElement.scrollHeight,
+        document.documentElement.offsetHeight
+      )}px`,
     });
     result.push({
       name: "Page width",
-      value:
-        (window.innerWidth ||
-          document.documentElement.clientWidth ||
-          document.body.clientWidth) + "px",
+      value: `${
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth
+      }px`,
     });
     result.push({
       name: "Fonts on this page",
@@ -40,36 +49,36 @@ export const page = {
     const loadTime = (timing.loadEventEnd - timing.navigationStart) / 1000;
     result.push({
       name: "Page load time",
-      value: loadTime + "s",
+      value: `${loadTime}s`,
     });
 
     return result;
   },
 
-  getWordThings() {
-    const result = [];
+  getWordThings(): ThingOnPage[] {
+    const result: ThingOnPage[] = [];
     console.log("Getting words on this page!");
     let wordsOnThisPage = words.getWordsOnPage();
     console.log({ wordsOnThisPage });
     result.push({
       name: "Total number of characters",
-      value: document.body.innerHTML.length,
+      value: document.body.innerHTML.length.toString(),
     });
 
     result.push({
       name: "Number of words on page",
-      value: wordsOnThisPage.length,
+      value: wordsOnThisPage.length.toString(),
     });
 
     result.push({
       name: "Top 30 words on this page",
-      value: words.getAWordCountTable(wordsOnThisPage),
+      value: words.getAWordCountTable(wordsOnThisPage) || "No data available",
       display: "table",
     });
 
     result.push({
       name: "Average word length",
-      value: words.getAverageWordLength(wordsOnThisPage),
+      value: words.getAverageWordLength(wordsOnThisPage).toString(),
     });
 
     result.push({
@@ -94,9 +103,9 @@ export const page = {
     return result;
   },
 
-  getFonts() {
-    let fonts = new Set();
-    let elements = document.querySelectorAll("body *:not(.things-popup *)"); // Get all elements excluding ones inside 'things-popup'
+  getFonts(): string[] {
+    let fonts = new Set<string>();
+    let elements = document.querySelectorAll("body *:not(.things-popup *)");
 
     for (let i = 0; i < elements.length; i++) {
       let computedStyle = window.getComputedStyle(elements[i]);

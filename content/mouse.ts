@@ -1,4 +1,31 @@
-export const mouse = {
+type Coordinate = {
+  x: number | null;
+  y: number | null;
+};
+
+type Mouse = {
+  numberOfClicks: number;
+  quadrantTimes: number[];
+  totalQuadrantTime: number;
+  lastQuadrant: number | null;
+  lastTime: number | null;
+  totalMouseMoveDistance: number;
+  lastSeenAt: Coordinate;
+  totalOffset: number;
+  currOffset: number;
+
+  handleMouseMove: (e: MouseEvent) => void;
+  handleScroll: () => void;
+  handleClick: () => void;
+  getQuadrant: (x: number, y: number) => number;
+  updateQuadrantPercentages: () => void;
+  renderQuadrantPercentages: () => string;
+  renderQuadrantBlock: (index: number, percentage: number) => string;
+  getCurrentData: () => { name: string; value: string }[];
+  monitor: () => void;
+};
+
+export const mouse: Mouse = {
   numberOfClicks: 0,
   quadrantTimes: [0, 0, 0, 0],
   totalQuadrantTime: 0,
@@ -10,21 +37,19 @@ export const mouse = {
   currOffset: window.pageYOffset,
 
   handleMouseMove(e) {
-    // This is for calculating the distance that the mouse has moved.
-    if (this.lastSeenAt.x) {
+    if (this.lastSeenAt.x !== null && this.lastSeenAt.y !== null) {
       this.totalMouseMoveDistance += Math.sqrt(
-        Math.pow(this.lastSeenAt.y - e.clientY, 2) +
-          Math.pow(this.lastSeenAt.x - e.clientX, 2)
+        (this.lastSeenAt.y - e.clientY) ** 2 +
+          (this.lastSeenAt.x - e.clientX) ** 2
       );
     }
     this.lastSeenAt.x = e.clientX;
     this.lastSeenAt.y = e.clientY;
 
-    // This is the quadrant mechanism
     const currentTime = new Date().getTime();
     const currentQuadrant = this.getQuadrant(e.clientX, e.clientY);
 
-    if (this.lastQuadrant !== null) {
+    if (this.lastQuadrant !== null && this.lastTime !== null) {
       this.quadrantTimes[this.lastQuadrant] += currentTime - this.lastTime;
       this.totalQuadrantTime += currentTime - this.lastTime;
     }
@@ -51,7 +76,7 @@ export const mouse = {
 
   updateQuadrantPercentages() {
     const currentTime = new Date().getTime();
-    if (this.lastQuadrant !== null) {
+    if (this.lastQuadrant !== null && this.lastTime !== null) {
       this.quadrantTimes[this.lastQuadrant] += currentTime - this.lastTime;
       this.totalQuadrantTime += currentTime - this.lastTime;
     }
@@ -85,7 +110,7 @@ export const mouse = {
     return `
       <div class="quadrant-block" style="top: ${top}%; left: ${left}%;">
         <div class="quadrant-block-inside" style="background-color: rgba(${bgColor}, ${alpha}); ">
-          <span class="quadrant-block-text" style="">${percentage}%</span>
+          <span class="quadrant-block-text">${percentage}%</span>
         </div>
       </div>
     `;
@@ -93,8 +118,8 @@ export const mouse = {
 
   getCurrentData() {
     this.updateQuadrantPercentages();
-    const mouseData = [
-      { name: "Mouse clicks", value: this.numberOfClicks },
+    return [
+      { name: "Mouse clicks", value: `${this.numberOfClicks}` },
       { name: "Mouse scrolled", value: `${Math.round(this.totalOffset)}px` },
       {
         name: "Mouse moved",
@@ -105,7 +130,6 @@ export const mouse = {
         value: this.renderQuadrantPercentages(),
       },
     ];
-    return mouseData;
   },
 
   monitor() {

@@ -1,5 +1,5 @@
-import { page } from "./page.js";
-import { mouse } from "./mouse.js";
+import { page } from "./page.ts";
+import { mouse } from "./mouse.ts";
 import { requestTracking } from "./requests.js";
 
 export const thingsPopup = {
