@@ -14,7 +14,7 @@ export const manifest = defineManifest(async () => ({
         "file:///*/*",
       ],
       js: [
-        "content/things-popup.js",
+        "content/things-popup.ts",
         "content/time-counter.ts",
         "content/page.ts",
         "content/mouse.ts",
@@ -26,6 +26,6 @@ export const manifest = defineManifest(async () => ({
       run_at: "document_idle",
     },
   ],
-  permissions: [],
+  permissions: ["activeTab"],
   host_permissions: ["<all_urls>"],
 }));

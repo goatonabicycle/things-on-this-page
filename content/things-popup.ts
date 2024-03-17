@@ -1,47 +1,45 @@
-import { page } from "./page.ts";
-import { mouse } from "./mouse.ts";
-import { requestTracking } from "./requests.js";
+import { page } from "./page";
+import { mouse } from "./mouse";
+
+interface Item {
+  name: string;
+  value: string;
+}
 
 export const thingsPopup = {
-  renderMouseSection() {
+  renderMouseSection(): void {
     const mouseData = mouse.getCurrentData();
     const container = document.getElementById("mouse");
 
     if (container)
-      container.innerHTML = mouseData.map(this.contentRender).join("");
+      container.innerHTML = mouseData
+        .map((item) => this.contentRender(item))
+        .join("");
   },
 
-  renderThingsSection() {
+  renderThingsSection(): void {
     const thingsOnThisPage = page.getThingsOnThisPage();
     const container = document.getElementById("things");
 
     if (container)
-      container.innerHTML = thingsOnThisPage.map(this.contentRender).join("");
+      container.innerHTML = thingsOnThisPage
+        .map((item) => this.contentRender(item))
+        .join("");
   },
 
-  renderRequestsSection() {
-    import("./requests.js").then((module) => {
-      const requestData = module.requestTracking.getCurrentData();
-      const container = document.getElementById("requests");
-
-      if (container)
-        container.innerHTML = requestData.map(this.contentRender).join("");
-    });
-  },
-
-  contentRender(item) {
+  contentRender(item: Item): string {
     return `<div class="item">
       <span class='item-name'>${item.name}:</span> 
       <span class='item-value'>${item.value}</span> 
     </div>`;
   },
 
-  makeSection(title, data, sectionId) {
+  makeSection(title: string, data: Item[], sectionId: string): string {
     let result = `
       <div class="section">
         <div class="section-title" data-section="${sectionId}">${title}</div>
         <div id="${sectionId}" class="section-content hidden">
-          ${data.map(this.contentRender).join("")}
+          ${data.map((item) => this.contentRender(item)).join("")}
         </div>
       </div>
     `;
@@ -49,23 +47,27 @@ export const thingsPopup = {
     return result;
   },
 
-  toggleSection(event) {
-    const sectionId = event.target.dataset.section;
+  toggleSection(event: Event): void {
+    const mouseEvent = event as MouseEvent;
+    const target = mouseEvent.target as HTMLElement;
+    const sectionId = target.dataset.section?.toString() || "";
     const content = document.getElementById(sectionId);
-    content.classList.toggle("hidden");
-    event.target.classList.toggle("expanded");
+    if (content) {
+      content.classList.toggle("hidden");
+      target.classList.toggle("expanded");
+    }
   },
 
-  addEventListeners() {
+  addEventListeners(): void {
     const sectionTitles = document.querySelectorAll(
       ".things-popup-contain .section-title"
     );
     sectionTitles.forEach((title) => {
-      title.addEventListener("click", this.toggleSection);
+      title.addEventListener("click", this.toggleSection.bind(this));
     });
   },
 
-  togglePopup() {
+  togglePopup(): void {
     const container = document.getElementById("things-popup");
     if (container) {
       if (container.classList.contains("things-popup-open")) {
@@ -82,7 +84,7 @@ export const thingsPopup = {
     }
   },
 
-  createIcon() {
+  createIcon(): HTMLElement {
     const icon = document.createElement("div");
     icon.id = "things-popup-icon";
     icon.className = "things-popup-icon";
@@ -93,7 +95,7 @@ export const thingsPopup = {
     return icon;
   },
 
-  render() {
+  render(): void {
     const container =
       document.getElementById("things-popup") || document.createElement("div");
     container.id = "things-popup";
@@ -102,26 +104,17 @@ export const thingsPopup = {
     const thingsOnThisPage = page.getThingsOnThisPage();
     const wordsOnThisPage = page.getWordThings();
     const mouseData = mouse.getCurrentData();
-    const requestData = requestTracking.getCurrentData();
 
     const thingsSection = this.makeSection(
       "Page things",
       thingsOnThisPage,
       "things"
     );
-
     const wordsSection = this.makeSection("Words", wordsOnThisPage, "words");
-
     const mouseSection = this.makeSection(
       "Things You Have Done",
       mouseData,
       "mouse"
-    );
-
-    const requestsSection = this.makeSection(
-      "Requests that have been made",
-      requestData,
-      "requests"
     );
 
     container.innerHTML = `${thingsSection}${wordsSection}${mouseSection}`;
