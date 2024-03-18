@@ -8,17 +8,12 @@ interface CharDistMap {
 
 export const words = {
   getWordsOnPage(): string[] {
-    const thingsPopup = document.getElementById("things-popup");
+    const thingsPopup = document.getElementById("things-popup") || null;
+    const everything = document.body.innerText
+      .replace(thingsPopup?.innerText ?? "", "")
+      .toLowerCase();
 
-    if (!thingsPopup) return [];
-
-    const everything =
-      document.body.textContent
-        ?.replace(thingsPopup.textContent ?? "", "")
-        .toLowerCase() ?? "";
-
-    const words: string[] = everything.match(/[a-zA-Z]+/g) ?? [];
-
+    const words = everything.match(/[a-zA-Z]+/g) || [];
     return words;
   },
 
