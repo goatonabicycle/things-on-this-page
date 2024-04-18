@@ -87,9 +87,13 @@ export const thingsPopup = {
   createIcon(): HTMLElement {
     const icon = document.createElement("div");
     icon.id = "things-popup-icon";
-    icon.className = "things-popup-icon";
+    icon.textContent = "Things";
+    icon.className =
+      "fixed top-2 right-2 cursor-pointer flex justify-center items-center w-24 h-5 text-center text-sm font-bold bg-white border border-blue-500 z-50";
+
     icon.addEventListener("click", () => {
-      icon.classList.toggle("open");
+      const isOpen = icon.classList.toggle("open");
+      icon.textContent = isOpen ? "x" : "Things";
       this.togglePopup();
     });
     return icon;

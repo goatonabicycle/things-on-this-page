@@ -1,36 +1,3 @@
-.things-popup-icon {
-  font-family: "Arial", sans-serif;
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  width: 100px;
-  height: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  font-weight: bold;
-  background-color: #fff;
-  border: 1px solid rgb(30, 153, 210);
-  z-index: 1000;
-}
-
-.things-popup-icon:after {
-  content: "Things";
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  color: rgb(30, 153, 210);
-}
-
-.things-popup-contain.things-popup-open + .things-popup-icon:after {
-  content: "x";
-}
-
 .things-popup-contain {
   position: fixed;
   top: 30px;
