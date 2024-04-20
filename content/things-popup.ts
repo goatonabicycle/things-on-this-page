@@ -1,5 +1,6 @@
 import { page } from "./page";
 import { mouse } from "./mouse";
+import { getFlag } from "./feature-flags";
 
 interface Item {
   name: string;
@@ -88,8 +89,11 @@ export const thingsPopup = {
     const icon = document.createElement("div");
     icon.id = "things-popup-icon";
     icon.textContent = "Things";
-    icon.className =
-      "fixed top-2 right-2 cursor-pointer flex justify-center items-center w-24 h-5 text-center text-sm font-bold bg-white border border-blue-500 z-50";
+
+    icon.className = `fixed top-2 right-2 cursor-pointer flex justify-center items-center w-24 h-5 text-center text-sm font-bold bg-white border-solid border z-50`;
+
+    let outlineColour: string = getFlag("outlineColour");
+    icon.style.borderColor = outlineColour;
 
     icon.addEventListener("click", () => {
       const isOpen = icon.classList.toggle("open");
@@ -115,11 +119,7 @@ export const thingsPopup = {
       "things"
     );
     const wordsSection = this.makeSection("Words", wordsOnThisPage, "words");
-    const mouseSection = this.makeSection(
-      "Things You Have Done",
-      mouseData,
-      "mouse"
-    );
+    const mouseSection = this.makeSection("Mouse", mouseData, "mouse");
 
     container.innerHTML = `${thingsSection}${wordsSection}${mouseSection}`;
 

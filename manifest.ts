@@ -18,6 +18,7 @@ export const manifest = defineManifest(async () => ({
         "content/time-counter.ts",
         "content/page.ts",
         "content/mouse.ts",
+        "content/feature-flags.ts",
         "content/words.ts",
         // "content/requests.js",
         "content.ts",
