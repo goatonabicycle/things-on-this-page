@@ -16,3 +16,18 @@ function updateEverySecond(): void {
 
 thingsPopup.render();
 updateEverySecond();
+
+interface FeatureFlagsMessage {
+  type: "UPDATE_FLAGS";
+  flags: {
+    blue: boolean;
+    panelsToShow: string[];
+  };
+}
+
+chrome.runtime.onMessage.addListener((message: FeatureFlagsMessage) => {
+  if (message.type === "UPDATE_FLAGS") {
+    const flags = message.flags;
+    console.log({ flags });
+  }
+});

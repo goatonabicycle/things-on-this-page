@@ -26,6 +26,9 @@ export const manifest = defineManifest(async () => ({
       run_at: "document_idle",
     },
   ],
-  permissions: ["activeTab"],
+  permissions: ["activeTab", "webRequest", "storage"],
   host_permissions: ["<all_urls>"],
+  background: {
+    service_worker: "/src/background.js",
+  },
 }));
