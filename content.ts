@@ -5,8 +5,9 @@ import { thingsPopup } from "./content/things-popup";
 import { timeCounter } from "./content/time-counter";
 import { setFlags, isPanelVisible, Flags } from "./content/feature-flags";
 
-const mouseActive = isPanelVisible("mouse");
-if (mouseActive) mouse.monitor();
+// const mouseActive = isPanelVisible("mouse");
+// if (mouseActive)
+mouse.monitor();
 
 function updateEverySecond(): void {
   thingsPopup.renderThingsSection();
