@@ -17,5 +17,7 @@ export function getFlag<T extends keyof Flags>(flagName: T): Flags[T] {
 }
 
 export function isPanelVisible(panelName: string): boolean {
+  console.log("Flags!");
+  console.log(flags.panelsToShow);
   return flags.panelsToShow.includes(panelName);
 }

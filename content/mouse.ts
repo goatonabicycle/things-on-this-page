@@ -117,6 +117,7 @@ export const mouse: Mouse = {
   },
 
   getCurrentData() {
+    console.log("getCurrentData mouse");
     this.updateQuadrantPercentages();
     return [
       { name: "Mouse clicks", value: `${this.numberOfClicks}` },

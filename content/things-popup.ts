@@ -10,6 +10,7 @@ interface Item {
 export const thingsPopup = {
   renderMouseSection(): void {
     const mouseData = mouse.getCurrentData();
+    console.log({ mouseData });
     const container = document.getElementById("mouse");
 
     if (container)
