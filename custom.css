@@ -1,143 +1,143 @@
 .things-popup-contain {
-  position: fixed;
-  top: 30px;
-  right: 10px;
-  width: 250px;
-  max-height: 90%;
-  padding: 5px;
-  font-family: "Arial", sans-serif;
-  font-size: 14px;
-  background-color: white;
-  color: black;
-  border: 1px solid rgb(30, 153, 210);
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-  overflow-y: auto;
-  opacity: 0;
-  transform: translateY(-20px);
-  transition: all 0.3s ease-in-out;
-  z-index: 999999;
+	position: fixed;
+	top: 30px;
+	right: 10px;
+	width: 250px;
+	max-height: 90%;
+	padding: 5px;
+	font-family: "Arial", sans-serif;
+	font-size: 14px;
+	background-color: white;
+	color: black;
+	border: 1px solid rgb(30, 153, 210);
+	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+	overflow-y: auto;
+	opacity: 0;
+	transform: translateY(-20px);
+	transition: all 0.3s ease-in-out;
+	z-index: 999999;
 }
 
 .things-popup-open {
-  opacity: 1;
-  transform: translateY(0);
+	opacity: 1;
+	transform: translateY(0);
 }
 
 .things-popup-contain .section {
-  margin-bottom: 16px;
+	margin-bottom: 16px;
 }
 
 .things-popup-contain .section-title {
-  font-weight: bold;
-  margin-bottom: 8px;
-  text-align: center;
-  color: rgb(30, 153, 210);
+	font-weight: bold;
+	margin-bottom: 8px;
+	text-align: center;
+	color: rgb(30, 153, 210);
 }
 
 .things-popup-contain .section-content {
-  margin-left: 12px;
+	margin-left: 12px;
 }
 
 .things-popup-contain .item {
-  margin-bottom: 16px;
+	margin-bottom: 16px;
 }
 
 .things-popup-contain .item-name {
-  font-weight: bold;
-  border-bottom: 1px solid rgb(30, 153, 210);
+	font-weight: bold;
+	border-bottom: 1px solid rgb(30, 153, 210);
 }
 
 .things-popup-contain .item-value {
-  font-style: italic;
+	font-style: italic;
 }
 
 /* Table Styles */
 .things-popup-contain table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-  background-color: #fff;
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 14px;
+	background-color: #fff;
 }
 
 .things-popup-contain thead {
-  background-color: #f9f9f9;
-  font-weight: bold;
+	background-color: #f9f9f9;
+	font-weight: bold;
 }
 
 .things-popup-contain th,
 .things-popup-contain td {
-  padding: 5px;
-  overflow: hidden;
-  max-width: 40px;
-  text-align: left;
+	padding: 5px;
+	overflow: hidden;
+	max-width: 40px;
+	text-align: left;
 }
 
 .things-popup-contain tr:nth-child(even) {
-  background-color: #f2f2f2;
+	background-color: #f2f2f2;
 }
 
 .things-popup-contain .hidden {
-  display: none;
+	display: none;
 }
 
 .things-popup-contain #quadrant-percentage-container {
-  position: relative;
-  padding: 0px;
-  width: 100px;
-  height: 100px;
-  margin: 0 auto;
-  margin-bottom: 30px;
+	position: relative;
+	padding: 0px;
+	width: 100px;
+	height: 100px;
+	margin: 0 auto;
+	margin-bottom: 30px;
 }
 
 .things-popup-contain #quadrant-percentage-container .quadrant-block {
-  position: absolute;
-  width: 50%;
-  height: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	position: absolute;
+	width: 50%;
+	height: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .things-popup-contain #quadrant-percentage-container .quadrant-block-inside {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .things-popup-contain #quadrant-percentage-container .quadrant-block-text {
-  color: black;
-  font-size: 12px;
-  background-color: white;
-  border-radius: 6px;
-  padding: 2px 2px;
+	color: black;
+	font-size: 12px;
+	background-color: white;
+	border-radius: 6px;
+	padding: 2px 2px;
 }
 
 .things-popup-contain .section-title {
-  font-weight: bold;
-  margin-bottom: 2px;
-  text-align: center;
-  color: rgb(30, 153, 210);
-  cursor: pointer;
-  position: relative;
-  display: inline-block;
-  padding-right: 20px;
+	font-weight: bold;
+	margin-bottom: 2px;
+	text-align: center;
+	color: rgb(30, 153, 210);
+	cursor: pointer;
+	position: relative;
+	display: inline-block;
+	padding-right: 20px;
 }
 
 .things-popup-contain .section-title:before {
-  content: "";
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%) rotate(-45deg);
-  border: solid rgb(30, 153, 210);
-  border-width: 0 2px 2px 0;
-  display: inline-block;
-  padding: 3px;
-  transition: transform 0.3s ease-in-out;
+	content: "";
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%) rotate(-45deg);
+	border: solid rgb(30, 153, 210);
+	border-width: 0 2px 2px 0;
+	display: inline-block;
+	padding: 3px;
+	transition: transform 0.3s ease-in-out;
 }
 
 .things-popup-contain .section-title.expanded:before {
-  transform: translateY(-50%) rotate(45deg);
+	transform: translateY(-50%) rotate(45deg);
 }

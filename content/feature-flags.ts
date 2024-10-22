@@ -1,23 +1,23 @@
 export interface Flags {
-  outlineColour: string;
-  panelsToShow: string[];
+	outlineColour: string;
+	panelsToShow: string[];
 }
 
 let flags: Flags = {
-  outlineColour: "blue",
-  panelsToShow: [],
+	outlineColour: "blue",
+	panelsToShow: [],
 };
 
 export function setFlags(newFlags: Flags): void {
-  flags = newFlags;
+	flags = newFlags;
 }
 
 export function getFlag<T extends keyof Flags>(flagName: T): Flags[T] {
-  return flags[flagName];
+	return flags[flagName];
 }
 
 export function isPanelVisible(panelName: string): boolean {
-  console.log("Flags!");
-  console.log(flags.panelsToShow);
-  return flags.panelsToShow.includes(panelName);
+	console.log("Flags!");
+	console.log(flags.panelsToShow);
+	return flags.panelsToShow.includes(panelName);
 }
