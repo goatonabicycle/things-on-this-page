@@ -3,19 +3,18 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build": "extension build",
+    "dev": "extension dev",
+    "start": "extension start"
   },
-  "devDependencies": {
-    "@crxjs/vite-plugin": "^1.0.14",
+  "devDependencies": {    
     "@types/chrome": "^0.0.266",
     "@types/sentiment": "^5.0.4",
     "autoprefixer": "^10.4.19",
+    "extension": "^2.0.0-beta.2",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.4.5",
-    "vite": "^2.9.9"
+    "typescript": "^5.4.5"
   },
   "dependencies": {
     "sentiment": "^5.0.2"
