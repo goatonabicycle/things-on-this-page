@@ -69,3 +69,7 @@ q
 ## Special cases:
 
 - Twitter/Youtube/Spotify/Soundcloud/Bandcamp/Facebook etc. might have specific interesting things about them.
+
+
+- Use the management API to show all other extensions currently active. 
+- Add ability to turn them off. 
