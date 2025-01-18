@@ -9,7 +9,13 @@ This will get interesting information about the page that you're currently on. T
 ## How do I get it running?
 
 ```
-npx vite
+npm run dev
+```
+
+## How do I get a releasable version?
+
+```
+npm run build
 ```
 
 ## What will this be in the future? 
