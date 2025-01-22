@@ -177,4 +177,5 @@
 #things-popup-icon:hover {
   background-color: #2563EB !important;
   transform: translateY(-1px);
+  transform: translateX(-1px);
 }
