@@ -11,7 +11,9 @@ type Mouse = {
 	lastTime: number | null;
 	totalMouseMoveDistance: number;
 	lastSeenAt: Coordinate;
-	totalOffset: number;
+	totalScroll: number;
+	totalScrollUp: number;
+	totalScrollDown: number;
 	currOffset: number;
 
 	handleMouseMove: (e: MouseEvent) => void;
@@ -33,7 +35,9 @@ export const mouse: Mouse = {
 	lastTime: null,
 	totalMouseMoveDistance: 0,
 	lastSeenAt: { x: null, y: null },
-	totalOffset: 0,
+	totalScroll: 0,
+	totalScrollUp: 0,
+	totalScrollDown: 0,
 	currOffset: window.pageYOffset,
 
 	handleMouseMove(e) {
@@ -59,9 +63,17 @@ export const mouse: Mouse = {
 	},
 
 	handleScroll() {
-		const addedOffset = Math.abs(this.currOffset - window.pageYOffset);
-		this.totalOffset += addedOffset;
+		const prevOffset = this.currOffset;
 		this.currOffset = window.pageYOffset;
+		const change = this.currOffset - prevOffset;
+
+		if (change < 0) {
+			this.totalScrollUp += Math.abs(change);
+		} else {
+			this.totalScrollDown += change;
+		}
+
+		this.totalScroll = this.totalScrollUp + this.totalScrollDown;
 	},
 
 	handleClick() {
@@ -121,7 +133,18 @@ export const mouse: Mouse = {
 		this.updateQuadrantPercentages();
 		return [
 			{ name: "Mouse clicks", value: `${this.numberOfClicks}` },
-			{ name: "Mouse scrolled", value: `${Math.round(this.totalOffset)}px` },
+			{
+				name: "Mouse scrolled up",
+				value: `${Math.round(this.totalScrollUp)}px`,
+			},
+			{
+				name: "Mouse scrolled down",
+				value: `${Math.round(this.totalScrollDown)}px`,
+			},
+			{
+				name: "Total mouse scrolled",
+				value: `${Math.round(this.totalScroll)}px`,
+			},
 			{
 				name: "Mouse moved",
 				value: `${Math.round(this.totalMouseMoveDistance)}px`,
@@ -136,6 +159,6 @@ export const mouse: Mouse = {
 	monitor() {
 		document.addEventListener("click", this.handleClick.bind(this));
 		document.addEventListener("mousemove", this.handleMouseMove.bind(this));
-		document.addEventListener("scroll", this.handleScroll.bind(this));
+		document.addEventListener("scroll", () => this.handleScroll());
 	},
 };
