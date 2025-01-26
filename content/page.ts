@@ -57,9 +57,7 @@ export const page = {
 
 	getWordThings(): ThingOnPage[] {
 		const result: ThingOnPage[] = [];
-		console.log("Getting words on this page!");
 		const wordsOnThisPage = words.getWordsOnPage();
-		console.log({ wordsOnThisPage });
 		result.push({
 			name: "Total number of characters",
 			value: document.body.innerHTML.length.toString(),

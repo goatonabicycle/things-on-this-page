@@ -9,7 +9,6 @@ q
 
 ## Mouse (Change this to "input" to cover key press events as well?)
 
-- Mouse click and movement heatmap.
 - Add directional information to the current total scroll distance.
 - Mouse clicks can be more specific (middle, right.)
 - Idle time.
