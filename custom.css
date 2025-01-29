@@ -17,8 +17,7 @@
   top: 40px;
   right: 16px;
   width: 320px;
-  max-height: 85vh;
-  padding: var(--popup-padding);
+  max-height: 85vh;  
   font-family: var(--popup-font-family);
   font-size: var(--popup-font-size);
   background-color: var(--popup-bg-color);
@@ -38,20 +37,15 @@
   transform: translateY(0);
 }
 
-.things-popup-contain .section {
-  margin-bottom: var(--popup-margin);
-  background-color: white;
-  border-radius: 8px;
-  padding: 12px;
+.things-popup-contain .section {    
   border: 1px solid #E5E7EB;
 }
 
 .things-popup-contain .section-title {
-  font-weight: 600;
-  margin-bottom: 12px;
+  font-weight: 600;  
   padding: 8px 12px;
   color: var(--popup-text-color);
-  background-color: var(--popup-header-bg-color);
+  
   border-radius: 6px;
   cursor: pointer;
   display: flex;
@@ -69,9 +63,9 @@
 }
 
 .things-popup-contain .item {
-  margin-bottom: 8px;
+  
   padding: 8px;
-  border-radius: 4px;
+  
   background-color: var(--popup-alt-bg-color);
 }
 
