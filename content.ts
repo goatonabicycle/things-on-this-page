@@ -1,5 +1,4 @@
 import "./custom.css";
-import "./styles.css";
 import { type Flags, isPanelVisible, setFlags } from "./content/feature-flags";
 import { mouse } from "./content/mouse";
 import { thingsPopup } from "./content/things-popup";

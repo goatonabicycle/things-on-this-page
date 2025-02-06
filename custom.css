@@ -173,3 +173,28 @@
   transform: translateY(-1px);
   transform: translateX(-1px);
 }
+
+#things-popup-icon {
+  position: fixed;
+  top: 0.5rem;
+  right: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 6rem;
+  height: 1.25rem;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 700;
+  background-color: white;
+  border: 1px solid;
+  z-index: 50;  
+  background-color: var(--popup-primary-color) !important;
+  color: white !important;
+  border-radius: 6px !important;
+  padding: 6px 12px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+  border: none !important;
+}
