@@ -85,9 +85,8 @@
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  margin: 8px 0;
-  font-size: var(--popup-font-size);
-  border-radius: 6px;
+  margin: 2px 0;
+  font-size: var(--popup-font-size);  
   overflow: hidden;
   border: 1px solid #E5E7EB;
 }
