@@ -1,8 +1,8 @@
 {
 	"manifest_version": 3,
 	"name": "Things On This Page",
-	"description": "",
-	"version": "0.1",
+	"description": "A simple extension that shows you all the things on the page.",
+	"version": "1",
 	"content_scripts": [
 		{
 			"matches": [
