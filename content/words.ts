@@ -168,7 +168,10 @@ export const words = {
 		return table;
 	},
 
-	getAWordCountTable(words: string[]): string | undefined {
+	getAWordCountTable(
+		words: string[],
+		numberOfWords: number,
+	): string | undefined {
 		if (!words || words.length === 0) {
 			return;
 		}
@@ -176,7 +179,7 @@ export const words = {
 		const counts = this.countWords(words);
 		const sortedCountsArray = this.sortCountsArray(counts);
 		const table = this.createTable(
-			sortedCountsArray.slice(0, 30),
+			sortedCountsArray.slice(0, numberOfWords),
 			"Word",
 			"Count",
 		);

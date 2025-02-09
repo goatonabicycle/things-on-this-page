@@ -115,11 +115,7 @@ export const thingsPopup = {
 		const wordsOnThisPage = page.getWordThings();
 		const mouseData = mouse.getCurrentData();
 
-		const thingsSection = this.makeSection(
-			"Page things",
-			thingsOnThisPage,
-			"things",
-		);
+		const thingsSection = this.makeSection("Page", thingsOnThisPage, "things");
 		const wordsSection = this.makeSection("Words", wordsOnThisPage, "words");
 		const mouseSection = this.makeSection("Mouse", mouseData, "mouse");
 

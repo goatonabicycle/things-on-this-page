@@ -70,7 +70,8 @@ export const page = {
 
 		result.push({
 			name: "Top 30 words on this page",
-			value: words.getAWordCountTable(wordsOnThisPage) || "No data available",
+			value:
+				words.getAWordCountTable(wordsOnThisPage, 30) || "No data available",
 			display: "table",
 		});
 
