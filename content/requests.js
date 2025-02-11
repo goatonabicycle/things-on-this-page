@@ -41,6 +41,10 @@ export const requestTracking = {
 				name: "Requests by Type",
 				value: this.formatRequestData(this.requestsByType),
 			},
+			{
+				name: "Requests by type",  // 200 vs 404 vs ... 
+				value: ""
+			},
 		];
 		return requestData;
 	},
