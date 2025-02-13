@@ -53,6 +53,23 @@ export const thingsPopup = {
 		const target = mouseEvent.target as HTMLElement;
 		const sectionId = target.dataset.section?.toString() || "";
 		const content = document.getElementById(sectionId);
+
+		const allSectionContents = document.querySelectorAll(".section-content");
+		const allSectionTitles = document.querySelectorAll(".section-title");
+
+		allSectionContents.forEach((section) => {
+			if (section.id !== sectionId) {
+				section.classList.add("hidden");
+			}
+		});
+
+		allSectionTitles.forEach((title) => {
+			if (title.dataset.section !== sectionId) {
+				title.classList.remove("expanded");
+			}
+		});
+
+		// Toggle the clicked section
 		if (content) {
 			content.classList.toggle("hidden");
 			target.classList.toggle("expanded");
