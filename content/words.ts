@@ -7,13 +7,61 @@ interface CharDistMap {
 }
 
 export const words = {
-	getWordsOnPage(): string[] {
-		const thingsPopup = document.getElementById("things-popup") || null;
-		const everything = document.body.innerText
-			.replace(thingsPopup?.innerText ?? "", "")
-			.toLowerCase();
+	getTextContent(): string {
+		let pageText = "";
 
-		const words = everything.match(/[a-zA-Z]+/g) || [];
+		try {
+			const elementsToIgnore = [
+				"script",
+				"style",
+				"iframe",
+				"noscript",
+				"head",
+			];
+			const elementsToCheck = document.querySelectorAll("body *");
+
+			for (let i = 0; i < elementsToCheck.length; i++) {
+				const element = elementsToCheck[i];
+
+				if (
+					element.id === "things-popup" ||
+					element.id === "things-popup-icon" ||
+					element.closest("#things-popup")
+				) {
+					continue;
+				}
+
+				if (elementsToIgnore.includes(element.tagName.toLowerCase())) {
+					continue;
+				}
+
+				const style = window.getComputedStyle(element);
+				if (
+					style.display !== "none" &&
+					style.visibility !== "hidden" &&
+					style.opacity !== "0"
+				) {
+					const directText = Array.from(element.childNodes)
+						.filter((node) => node.nodeType === Node.TEXT_NODE)
+						.map((node) => node.textContent)
+						.join(" ");
+
+					if (directText.trim()) {
+						pageText += `${directText} `;
+					}
+				}
+			}
+		} catch (e) {
+			console.error("Error extracting page text:", e);
+			pageText = document.body.innerText;
+		}
+
+		return pageText.trim();
+	},
+
+	getWordsOnPage(): string[] {
+		const text = this.getTextContent().toLowerCase();
+		const words = text.match(/[a-zA-Z]+/g) || [];
 		return words;
 	},
 
@@ -27,29 +75,17 @@ export const words = {
 		return averageLength;
 	},
 
-	characterDistributionMap(words: string[]): CharDistMap {
+	characterDistributionMap(chars: string): CharDistMap {
 		const charDistMap: CharDistMap = {};
 
-		for (const word of words) {
-			for (const char of word) {
-				if (/\w/.test(char)) {
-					// Convert the character to lowercase. X and x should be treated the same.
-					const lowerChar = char.toLowerCase();
-					charDistMap[lowerChar] = (charDistMap[lowerChar] || 0) + 1;
-				} else {
-					charDistMap[char] = (charDistMap[char] || 0) + 1;
-				}
+		for (let i = 0; i < chars.length; i++) {
+			const char = chars[i].toLowerCase();
+			if (/[a-z0-9]/.test(char)) {
+				charDistMap[char] = (charDistMap[char] || 0) + 1;
 			}
 		}
 
-		const sortedCharDistMap = Object.entries(charDistMap)
-			.sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-			.reduce((acc: { [key: string]: number }, [char, count]) => {
-				acc[char] = count;
-				return acc;
-			}, {} as CharDistMap);
-
-		return sortedCharDistMap;
+		return charDistMap;
 	},
 
 	getSentiment(words: string[]): Sentiment.AnalysisResult {
@@ -60,7 +96,6 @@ export const words = {
 	getSentimentDisplay(sentimentResult: Sentiment.AnalysisResult): string {
 		const { score, positive, negative } = sentimentResult;
 
-		// Determine the overall sentiment
 		let overallFeeling = "neutral";
 		if (score > 0) {
 			overallFeeling = "positive";
@@ -74,14 +109,11 @@ export const words = {
 		};
 
 		const output = `  
-    <div><span class='item-name'>Overall feeling:</span>
-    <span class='item-value'> ${overallFeeling}</span></div>
-    <div><span class='item-name'>Positive words:</span><span class='item-value'> ${
-			positive.length > 0 ? displayWordList(positive) : "None"
-		}</span></div>
-    <div><span class='item-name'>Negative words:</span><span class='item-value'> ${
-			negative.length > 0 ? displayWordList(negative) : "None"
-		}</span></div>`;
+			<div class="sentiment-container">
+				<div><strong>Overall feeling:</strong> ${overallFeeling} (score: ${score})</div>
+				<div class="sentiment-words"><strong>Positive words:</strong> ${positive.length > 0 ? displayWordList(positive) : "None"}</div>
+				<div class="sentiment-words"><strong>Negative words:</strong> ${negative.length > 0 ? displayWordList(negative) : "None"}</div>
+			</div>`;
 
 		return output;
 	},
@@ -97,6 +129,10 @@ export const words = {
 			if (words[i].length > longestWord.length) {
 				longestWord = words[i];
 			}
+		}
+
+		if (longestWord.length > 30) {
+			return `${longestWord.substring(0, 30)} ...`;
 		}
 
 		return longestWord;
@@ -124,48 +160,8 @@ export const words = {
 		return sortedCountsArray;
 	},
 
-	createTableRow(item1: string, item2: string): HTMLTableRowElement {
-		const tr = document.createElement("tr");
-		const tdItem1 = document.createElement("td");
-		const tdItem2 = document.createElement("td");
-
-		tdItem1.textContent = item1;
-		tdItem2.textContent = item2;
-
-		tr.appendChild(tdItem1);
-		tr.appendChild(tdItem2);
-
-		return tr;
-	},
-
-	createTable(
-		sortedCountsArray: Array<[string, number]>,
-		label1: string,
-		label2: string,
-	): HTMLElement {
-		const table = document.createElement("table");
-		const thead = document.createElement("thead");
-		const tbody = document.createElement("tbody");
-
-		const trHead = document.createElement("tr");
-		const thLabel1 = document.createElement("th");
-		const thLabel2 = document.createElement("th");
-
-		thLabel1.textContent = label1;
-		thLabel2.textContent = label2;
-
-		trHead.appendChild(thLabel1);
-		trHead.appendChild(thLabel2);
-		thead.appendChild(trHead);
-		table.appendChild(thead);
-
-		for (const [item1, item2] of sortedCountsArray) {
-			const trBody = this.createTableRow(item1, item2.toString());
-			tbody.appendChild(trBody);
-		}
-
-		table.appendChild(tbody);
-		return table;
+	createTableRow(item1: string, item2: string): string {
+		return `<tr><td>${item1}</td><td>${item2}</td></tr>`;
 	},
 
 	getAWordCountTable(
@@ -178,22 +174,55 @@ export const words = {
 
 		const counts = this.countWords(words);
 		const sortedCountsArray = this.sortCountsArray(counts);
-		const table = this.createTable(
-			sortedCountsArray.slice(0, numberOfWords),
-			"Word",
-			"Count",
+		const columns = 2;
+		const rowsPerColumn = Math.ceil(
+			Math.min(numberOfWords, sortedCountsArray.length) / columns,
 		);
 
-		return table.outerHTML;
+		let tableHTML = '<table class="compact-table word-count-table">';
+		tableHTML += "<thead><tr>";
+
+		for (let i = 0; i < columns; i++) {
+			tableHTML += "<th>Word</th><th>Count</th>";
+		}
+
+		tableHTML += "</tr></thead><tbody>";
+
+		for (let row = 0; row < rowsPerColumn; row++) {
+			tableHTML += "<tr>";
+
+			for (let col = 0; col < columns; col++) {
+				const index = row + col * rowsPerColumn;
+
+				if (index < Math.min(numberOfWords, sortedCountsArray.length)) {
+					const [word, count] = sortedCountsArray[index];
+					tableHTML += `<td>${word}</td><td>${count}</td>`;
+				} else {
+					tableHTML += "<td></td><td></td>";
+				}
+			}
+
+			tableHTML += "</tr>";
+		}
+
+		tableHTML += "</tbody></table>";
+
+		return tableHTML;
 	},
 
 	createCharDistTable(charDistMap: CharDistMap): string {
-		const sortedCharDistArray = Object.entries(charDistMap).sort(
-			(a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
-		);
+		const sortedChars = Object.entries(charDistMap)
+			.sort((a, b) => b[1] - a[1])
+			.filter(([char]) => /[a-zA-Z]/.test(char));
 
-		const table = this.createTable(sortedCharDistArray, "Character", "Count");
+		let tableHTML = '<div class="char-dist-grid">';
 
-		return table.outerHTML;
+		for (const [char, count] of sortedChars) {
+			tableHTML += `<div class="char-item"><span class="char">${char}</span><span class="count">${count}</span></div>`;
+		}
+
+		tableHTML += "</div>";
+
+		return tableHTML;
 	},
 };

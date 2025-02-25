@@ -1,89 +1,64 @@
-import { getFlag } from "./feature-flags";
+import { getFlag, isPanelVisible } from "./feature-flags";
 import { mouse } from "./mouse";
 import { page } from "./page";
 
 interface Item {
 	name: string;
 	value: string;
+	display?: "table";
+	fullWidth?: boolean;
 }
 
 export const thingsPopup = {
 	renderMouseSection(): void {
 		const mouseData = mouse.getCurrentData();
-		const container = document.getElementById("mouse");
+		const container = document.getElementById("mouse-items");
 
-		if (container)
-			container.innerHTML = mouseData
-				.map((item) => this.contentRender(item))
-				.join("");
+		if (container) {
+			container.innerHTML = this.renderItemsGrid(mouseData);
+		}
 	},
 
 	renderThingsSection(): void {
 		const thingsOnThisPage = page.getThingsOnThisPage();
-		const container = document.getElementById("things");
+		const container = document.getElementById("things-items");
 
-		if (container)
-			container.innerHTML = thingsOnThisPage
-				.map((item) => this.contentRender(item))
-				.join("");
-	},
-
-	contentRender(item: Item): string {
-		return `<div class="item">
-      <span class='item-name'>${item.name}:</span> 
-      <span class='item-value'>${item.value}</span> 
-    </div>`;
-	},
-
-	makeSection(title: string, data: Item[], sectionId: string): string {
-		const result = `
-      <div class="section">
-        <div class="section-title" data-section="${sectionId}">${title}</div>
-        <div id="${sectionId}" class="section-content hidden">
-          ${data.map((item) => this.contentRender(item)).join("")}
-        </div>
-      </div>
-    `;
-
-		return result;
-	},
-
-	toggleSection(event: Event): void {
-		const mouseEvent = event as MouseEvent;
-		const target = mouseEvent.target as HTMLElement;
-		const sectionId = target.dataset.section?.toString() || "";
-		const content = document.getElementById(sectionId);
-
-		const allSectionContents = document.querySelectorAll(".section-content");
-		const allSectionTitles = document.querySelectorAll(".section-title");
-
-		allSectionContents.forEach((section) => {
-			if (section.id !== sectionId) {
-				section.classList.add("hidden");
-			}
-		});
-
-		allSectionTitles.forEach((title) => {
-			if (title.dataset.section !== sectionId) {
-				title.classList.remove("expanded");
-			}
-		});
-
-		// Toggle the clicked section
-		if (content) {
-			content.classList.toggle("hidden");
-			target.classList.toggle("expanded");
+		if (container) {
+			container.innerHTML = this.renderItemsGrid(thingsOnThisPage);
 		}
 	},
 
-	addEventListeners(): void {
-		const sectionTitles = document.querySelectorAll(
-			".things-popup-contain .section-title",
-		);
+	renderWordsSection(): void {
+		const wordsOnThisPage = page.getWordThings();
+		const container = document.getElementById("words-items");
 
-		for (const title of sectionTitles) {
-			title.addEventListener("click", this.toggleSection.bind(this));
+		if (container) {
+			container.innerHTML = this.renderItemsGrid(wordsOnThisPage);
 		}
+	},
+
+	renderItemsGrid(items: Item[]): string {
+		return `<div class="items-grid">
+			${items.map((item) => this.renderItem(item)).join("")}
+		</div>`;
+	},
+
+	renderItem(item: Item): string {
+		const cssClass =
+			item.display === "table" || item.fullWidth ? "item full-width" : "item";
+		return `<div class="${cssClass}">
+			<span class='item-name'>${item.name}</span> 
+			<span class='item-value'>${item.value}</span> 
+		</div>`;
+	},
+
+	createCategory(title: string, id: string): string {
+		return `
+			<div class="category">
+				<div class="category-title">${title}</div>
+				<div id="${id}-items"></div>
+			</div>
+		`;
 	},
 
 	togglePopup(): void {
@@ -108,15 +83,14 @@ export const thingsPopup = {
 		icon.id = "things-popup-icon";
 		icon.textContent = "Things";
 
-		icon.className =
-			"fixed top-2 right-2 cursor-pointer flex justify-center items-center w-24 h-5 text-center text-sm font-bold bg-white border-solid border z-50";
-
 		const outlineColour: string = getFlag("outlineColour");
-		icon.style.borderColor = outlineColour;
+		if (outlineColour !== "blue") {
+			icon.style.backgroundColor = outlineColour;
+		}
 
 		icon.addEventListener("click", () => {
 			const isOpen = icon.classList.toggle("open");
-			icon.textContent = isOpen ? "x" : "Things";
+			icon.textContent = isOpen ? "×" : "Things";
 			this.togglePopup();
 		});
 		return icon;
@@ -128,20 +102,19 @@ export const thingsPopup = {
 		container.id = "things-popup";
 		container.className = "things-popup-contain";
 
-		const thingsOnThisPage = page.getThingsOnThisPage();
-		const wordsOnThisPage = page.getWordThings();
-		const mouseData = mouse.getCurrentData();
+		const thingsCategory = this.createCategory("Page Information", "things");
+		const wordsCategory = this.createCategory("Words Analysis", "words");
+		const mouseCategory = this.createCategory("Mouse Tracking", "mouse");
 
-		const thingsSection = this.makeSection("Page", thingsOnThisPage, "things");
-		const wordsSection = this.makeSection("Words", wordsOnThisPage, "words");
-		const mouseSection = this.makeSection("Mouse", mouseData, "mouse");
+		container.innerHTML = "";
 
-		container.innerHTML = `${thingsSection}${wordsSection}${mouseSection}`;
+		const categoriesHTML = document.createElement("div");
+		categoriesHTML.innerHTML = `${thingsCategory}${wordsCategory}${mouseCategory}`;
+		container.appendChild(categoriesHTML);
 
 		if (!document.body.contains(container)) {
 			container.style.display = "none";
 			document.body.appendChild(container);
-			this.addEventListeners();
 		}
 
 		const icon =
@@ -149,5 +122,9 @@ export const thingsPopup = {
 		if (!document.body.contains(icon)) {
 			document.body.appendChild(icon);
 		}
+
+		this.renderThingsSection();
+		this.renderWordsSection();
+		this.renderMouseSection();
 	},
 };

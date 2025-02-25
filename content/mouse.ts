@@ -23,7 +23,7 @@ type Mouse = {
 	updateQuadrantPercentages: () => void;
 	renderQuadrantPercentages: () => string;
 	renderQuadrantBlock: (index: number, percentage: number) => string;
-	getCurrentData: () => { name: string; value: string }[];
+	getCurrentData: () => { name: string; value: string; fullWidth?: boolean }[];
 	monitor: () => void;
 };
 
@@ -133,24 +133,17 @@ export const mouse: Mouse = {
 		return [
 			{ name: "Mouse clicks", value: `${this.numberOfClicks}` },
 			{
-				name: "Mouse scrolled up",
-				value: `${Math.round(this.totalScrollUp)}px`,
-			},
-			{
-				name: "Mouse scrolled down",
-				value: `${Math.round(this.totalScrollDown)}px`,
-			},
-			{
-				name: "Total mouse scrolled",
-				value: `${Math.round(this.totalScroll)}px`,
-			},
-			{
 				name: "Mouse moved",
 				value: `${Math.round(this.totalMouseMoveDistance)}px`,
 			},
 			{
-				name: "Percentage spent in quadrant",
+				name: "Mouse scrolled",
+				value: `${Math.round(this.totalScroll)}px (↑${Math.round(this.totalScrollUp)}px ↓${Math.round(this.totalScrollDown)}px)`,
+			},
+			{
+				name: "Quadrant distribution",
 				value: this.renderQuadrantPercentages(),
+				fullWidth: true,
 			},
 		];
 	},

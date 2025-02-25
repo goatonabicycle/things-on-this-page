@@ -4,6 +4,7 @@ interface ThingOnPage {
 	name: string;
 	value: string;
 	display?: "table";
+	fullWidth?: boolean;
 }
 
 export const page = {
@@ -39,6 +40,7 @@ export const page = {
 			name: "Fonts on this page",
 			value: this.getFonts().join(", "),
 			display: "table",
+			fullWidth: true,
 		});
 		result.push({
 			name: "Seconds since initial load",
@@ -58,9 +60,11 @@ export const page = {
 	getWordThings(): ThingOnPage[] {
 		const result: ThingOnPage[] = [];
 		const wordsOnThisPage = words.getWordsOnPage();
+		const textContent = words.getTextContent();
+
 		result.push({
 			name: "Total number of characters",
-			value: document.body.innerHTML.length.toString(),
+			value: textContent.length.toString(),
 		});
 
 		result.push({
@@ -69,10 +73,11 @@ export const page = {
 		});
 
 		result.push({
-			name: "Top 30 words on this page",
+			name: "Top 20 words on this page",
 			value:
-				words.getAWordCountTable(wordsOnThisPage, 30) || "No data available",
+				words.getAWordCountTable(wordsOnThisPage, 20) || "No data available",
 			display: "table",
+			fullWidth: true,
 		});
 
 		result.push({
@@ -88,15 +93,17 @@ export const page = {
 		result.push({
 			name: "Character distribution map",
 			value: words.createCharDistTable(
-				words.characterDistributionMap(wordsOnThisPage),
+				words.characterDistributionMap(textContent),
 			),
 			display: "table",
+			fullWidth: true,
 		});
 
 		const sentiment = words.getSentiment(wordsOnThisPage);
 		result.push({
 			name: "Sentiments",
 			value: words.getSentimentDisplay(sentiment),
+			fullWidth: true,
 		});
 
 		return result;
@@ -104,7 +111,9 @@ export const page = {
 
 	getFonts(): string[] {
 		const fonts = new Set<string>();
-		const elements = document.querySelectorAll("body *:not(.things-popup *)");
+		const elements = document.querySelectorAll(
+			"body *:not(#things-popup):not(#things-popup-icon):not(#things-popup *)",
+		);
 
 		for (let i = 0; i < elements.length; i++) {
 			const computedStyle = window.getComputedStyle(elements[i]);

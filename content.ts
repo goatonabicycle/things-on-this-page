@@ -8,6 +8,7 @@ mouse.monitor();
 
 function updateEverySecond(): void {
 	thingsPopup.renderThingsSection();
+	thingsPopup.renderWordsSection();
 	thingsPopup.renderMouseSection();
 	timeCounter.updateTimeCounter();
 	setTimeout(updateEverySecond, 1000);
