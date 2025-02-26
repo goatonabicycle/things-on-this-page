@@ -18,6 +18,7 @@
 				"content/mouse.ts",
 				"content/feature-flags.ts",
 				"content/words.ts",
+				"content/tab-display.ts",
 				"content.ts"
 			],
 			"type": "module",
@@ -28,7 +29,8 @@
 		"activeTab",
 		"webRequest",
 		"storage",
-		"management"
+		"management",
+		"tabs"
 	],
 	"host_permissions": [
 		"<all_urls>"

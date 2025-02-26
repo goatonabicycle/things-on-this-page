@@ -1,6 +1,7 @@
 import { getFlag, isPanelVisible } from "./feature-flags";
 import { mouse } from "./mouse";
 import { page } from "./page";
+import { tabDisplay } from "./tab-display";
 
 interface Item {
 	name: string;
@@ -17,6 +18,15 @@ export const thingsPopup = {
 		if (container) {
 			container.innerHTML = this.renderItemsGrid(mouseData);
 		}
+	},
+
+	renderTabsSection(): void {
+		tabDisplay.getCurrentData().then((tabData) => {
+			const container = document.getElementById("tabs-items");
+			if (container) {
+				container.innerHTML = this.renderItemsGrid(tabData);
+			}
+		});
 	},
 
 	renderThingsSection(): void {
@@ -105,11 +115,12 @@ export const thingsPopup = {
 		const thingsCategory = this.createCategory("Page Information", "things");
 		const wordsCategory = this.createCategory("Words Analysis", "words");
 		const mouseCategory = this.createCategory("Mouse Tracking", "mouse");
+		const tabsCategory = this.createCategory("Tab Time Tracking", "tabs");
 
 		container.innerHTML = "";
 
 		const categoriesHTML = document.createElement("div");
-		categoriesHTML.innerHTML = `${thingsCategory}${wordsCategory}${mouseCategory}`;
+		categoriesHTML.innerHTML = `${thingsCategory}${wordsCategory}${mouseCategory}${tabsCategory}`;
 		container.appendChild(categoriesHTML);
 
 		if (!document.body.contains(container)) {
@@ -126,5 +137,6 @@ export const thingsPopup = {
 		this.renderThingsSection();
 		this.renderWordsSection();
 		this.renderMouseSection();
+		this.renderTabsSection();
 	},
 };

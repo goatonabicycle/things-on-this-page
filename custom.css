@@ -98,7 +98,8 @@
   border-radius: 6px;
 }
 
-.things-popup-contain .word-count-table {
+.things-popup-contain .word-count-table, 
+.things-popup-contain .tab-time-table {
   table-layout: fixed;
 }
 

@@ -10,6 +10,7 @@ function updateEverySecond(): void {
 	thingsPopup.renderThingsSection();
 	thingsPopup.renderWordsSection();
 	thingsPopup.renderMouseSection();
+	thingsPopup.renderTabsSection();
 	timeCounter.updateTimeCounter();
 	setTimeout(updateEverySecond, 1000);
 }
