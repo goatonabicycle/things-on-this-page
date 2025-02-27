@@ -14,10 +14,18 @@ export const tabDisplay = {
 			chrome.runtime.sendMessage({ type: "GET_TAB_TIMES" }, (response) => {
 				console.log("Response from background:", response);
 				if (response && response.tabTimes) {
-					this.tabData = response.tabTimes;
-					resolve(response.tabTimes);
+					if (Array.isArray(response.tabTimes)) {
+						this.tabData = response.tabTimes;
+						console.log(
+							`Received ${response.tabTimes.length} tabs from background`,
+						);
+						resolve(response.tabTimes);
+					} else {
+						console.warn("Tab times data is not an array:", response.tabTimes);
+						resolve([]);
+					}
 				} else {
-					console.warn("No tab times received");
+					console.warn("No tab times received or invalid response:", response);
 					resolve([]);
 				}
 			});
@@ -43,7 +51,7 @@ export const tabDisplay = {
 	> {
 		await this.loadTabData();
 
-		if (this.tabData.length === 0) {
+		if (!this.tabData || this.tabData.length === 0) {
 			return [
 				{
 					name: "Tab tracking status",
@@ -63,7 +71,7 @@ export const tabDisplay = {
 	},
 
 	renderTabsTable(tabs: TabData[]): string {
-		if (tabs.length === 0) return "No data available";
+		if (!tabs || tabs.length === 0) return "No data available";
 
 		let html = `
       <table class="compact-table tab-time-table">
@@ -77,12 +85,14 @@ export const tabDisplay = {
     `;
 
 		for (const tab of tabs) {
+			if (!tab || !tab.url || !tab.title) continue;
+
 			const title =
 				tab.title.length > 40 ? tab.title.substring(0, 37) + "..." : tab.title;
 			html += `
         <tr>
           <td title="${tab.url}">${title}</td>
-          <td>${this.formatTime(tab.time)}</td>
+          <td>${this.formatTime(tab.time || 0)}</td>
         </tr>
       `;
 		}

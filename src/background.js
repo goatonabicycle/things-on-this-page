@@ -186,17 +186,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	console.log("Background received message:", message);
 
 	if (message.type === "GET_TAB_TIMES") {
-		console.log("Getting tab times");
-
-		const mockData = [{
-			url: "test-url",
-			title: "Test Tab",
-			time: 60000,
-			lastActive: Date.now()
-		}];
-
-		console.log("Sending mock data:", mockData);
-		sendResponse({ tabTimes: mockData });
+		console.log("Processing GET_TAB_TIMES message");
+		try {
+			const tabTimes = tabTracker.getTopTabs(10);
+			console.log("Tab times data:", tabTimes);
+			sendResponse({ tabTimes: tabTimes });
+		} catch (error) {
+			console.error("Error getting tab times:", error);
+			sendResponse({ tabTimes: [] });
+		}
 		return true;
 	}
 });
