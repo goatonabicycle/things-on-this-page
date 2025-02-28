@@ -12,6 +12,8 @@ interface Item {
 
 export const thingsPopup = {
 	renderMouseSection(): void {
+		if (!isPanelVisible("mouse")) return;
+
 		const mouseData = mouse.getCurrentData();
 		const container = document.getElementById("mouse-items");
 
@@ -21,6 +23,8 @@ export const thingsPopup = {
 	},
 
 	renderTabsSection(): void {
+		if (!isPanelVisible("tabs")) return;
+
 		tabDisplay.getCurrentData().then((tabData) => {
 			const container = document.getElementById("tabs-items");
 			if (container) {
@@ -30,6 +34,8 @@ export const thingsPopup = {
 	},
 
 	renderThingsSection(): void {
+		if (!isPanelVisible("things")) return;
+
 		const thingsOnThisPage = page.getThingsOnThisPage();
 		const container = document.getElementById("things-items");
 
@@ -39,6 +45,8 @@ export const thingsPopup = {
 	},
 
 	renderWordsSection(): void {
+		if (!isPanelVisible("words")) return;
+
 		const wordsOnThisPage = page.getWordThings();
 		const container = document.getElementById("words-items");
 
@@ -63,8 +71,11 @@ export const thingsPopup = {
 	},
 
 	createCategory(title: string, id: string): string {
+		const isVisible = isPanelVisible(id);
+		const displayStyle = isVisible ? "" : "display: none;";
+
 		return `
-			<div class="category">
+			<div class="category" id="${id}-category" style="${displayStyle}">
 				<div class="category-title">${title}</div>
 				<div id="${id}-items"></div>
 			</div>
@@ -104,6 +115,26 @@ export const thingsPopup = {
 			this.togglePopup();
 		});
 		return icon;
+	},
+
+	updateCategoryVisibility(): void {
+		const categories = [
+			{ id: "things", name: "Page Information" },
+			{ id: "words", name: "Words Analysis" },
+			{ id: "mouse", name: "Mouse Tracking" },
+			{ id: "tabs", name: "Tab Time Tracking" },
+		];
+
+		categories.forEach((category) => {
+			const categoryElement = document.getElementById(
+				`${category.id}-category`,
+			);
+			if (categoryElement) {
+				categoryElement.style.display = isPanelVisible(category.id)
+					? "block"
+					: "none";
+			}
+		});
 	},
 
 	render(): void {

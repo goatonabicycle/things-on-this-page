@@ -7,21 +7,37 @@ import { timeCounter } from "./content/time-counter";
 mouse.monitor();
 
 function updateEverySecond(): void {
-	thingsPopup.renderThingsSection();
-	thingsPopup.renderWordsSection();
-	thingsPopup.renderMouseSection();
-	thingsPopup.renderTabsSection();
+	if (isPanelVisible("things")) {
+		thingsPopup.renderThingsSection();
+	}
+	if (isPanelVisible("words")) {
+		thingsPopup.renderWordsSection();
+	}
+	if (isPanelVisible("mouse")) {
+		thingsPopup.renderMouseSection();
+	}
+	if (isPanelVisible("tabs")) {
+		thingsPopup.renderTabsSection();
+	}
+
 	timeCounter.updateTimeCounter();
 	setTimeout(updateEverySecond, 1000);
 }
 
-thingsPopup.render();
-updateEverySecond();
+chrome.storage.local.get("flags", (data) => {
+	if (data.flags) {
+		setFlags(data.flags);
+	}
+
+	thingsPopup.render();
+	updateEverySecond();
+});
 
 chrome.runtime.onMessage.addListener(
-	(message: { type: string; flags: Flags }) => {
-		if (message.type === "UPDATE_FLAGS") {
+	(message: { type: string; flags?: Flags }) => {
+		if (message.type === "UPDATE_FLAGS" && message.flags) {
 			setFlags(message.flags);
+			thingsPopup.render();
 		}
 	},
 );

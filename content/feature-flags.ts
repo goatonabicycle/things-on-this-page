@@ -10,6 +10,12 @@ let flags: Flags = {
 
 export function setFlags(newFlags: Flags): void {
 	flags = newFlags;
+	if (
+		typeof thingsPopup !== "undefined" &&
+		thingsPopup.updateCategoryVisibility
+	) {
+		thingsPopup.updateCategoryVisibility();
+	}
 }
 
 export function getFlag<T extends keyof Flags>(flagName: T): Flags[T] {
@@ -17,7 +23,5 @@ export function getFlag<T extends keyof Flags>(flagName: T): Flags[T] {
 }
 
 export function isPanelVisible(panelName: string): boolean {
-	console.log("Flags!");
-	console.log(flags.panelsToShow);
 	return flags.panelsToShow.includes(panelName);
 }
