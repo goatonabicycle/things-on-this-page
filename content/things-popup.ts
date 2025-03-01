@@ -125,7 +125,7 @@ export const thingsPopup = {
 			{ id: "tabs", name: "Tab Time Tracking" },
 		];
 
-		categories.forEach((category) => {
+		for (const category of categories) {
 			const categoryElement = document.getElementById(
 				`${category.id}-category`,
 			);
@@ -134,7 +134,7 @@ export const thingsPopup = {
 					? "block"
 					: "none";
 			}
-		});
+		}
 	},
 
 	render(): void {

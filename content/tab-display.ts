@@ -13,7 +13,7 @@ export const tabDisplay = {
 		return new Promise((resolve) => {
 			chrome.runtime.sendMessage({ type: "GET_TAB_TIMES" }, (response) => {
 				console.log("Response from background:", response);
-				if (response && response.tabTimes) {
+				if (response?.tabTimes) {
 					if (Array.isArray(response.tabTimes)) {
 						this.tabData = response.tabTimes;
 						console.log(
@@ -39,11 +39,13 @@ export const tabDisplay = {
 
 		if (hours > 0) {
 			return `${hours}h ${minutes % 60}m ${seconds % 60}s`;
-		} else if (minutes > 0) {
-			return `${minutes}m ${seconds % 60}s`;
-		} else {
-			return `${seconds}s`;
 		}
+
+		if (minutes > 0) {
+			return `${minutes}m ${seconds % 60}s`;
+		}
+
+		return `${seconds}s`;
 	},
 
 	async getCurrentData(): Promise<
@@ -88,7 +90,7 @@ export const tabDisplay = {
 			if (!tab || !tab.url || !tab.title) continue;
 
 			const title =
-				tab.title.length > 40 ? tab.title.substring(0, 37) + "..." : tab.title;
+				tab.title.length > 40 ? `${tab.title.substring(0, 37)}...` : tab.title;
 			html += `
         <tr>
           <td title="${tab.url}">${title}</td>

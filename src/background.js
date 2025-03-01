@@ -53,7 +53,7 @@ const tabTracker = {
 		console.log("Initializing tab tracker");
 
 		chrome.storage.local.get([this.storageKey], (result) => {
-			if (result && result[this.storageKey]) {
+			if (result?.[this.storageKey]) {
 				try {
 					const data = JSON.parse(result[this.storageKey]);
 					this.tabData = new Map(data.map(tab => [tab.url, tab]));
