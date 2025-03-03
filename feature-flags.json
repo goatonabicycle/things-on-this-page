@@ -1,4 +1,8 @@
 {
 	"outlineColour": "blue",
-	"panelsToShow": ["mouse", "words"]
+	"panelsToShow": [
+		"mouse",
+		"words",
+		"cookies"
+	]
 }
