@@ -60,7 +60,7 @@ export const thingsPopup = {
 		if (!isPanelVisible("cookies")) return;
 
 		const cookieData = cookieDetector.getCookies();
-		const container = document.getElementById("cookies");
+		const container = document.getElementById("cookies-items");
 
 		if (container) {
 			container.innerHTML = this.renderItemsGrid(cookieData);

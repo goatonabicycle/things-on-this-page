@@ -19,6 +19,9 @@ function updateEverySecond(): void {
 	if (isPanelVisible("tabs")) {
 		thingsPopup.renderTabsSection();
 	}
+	if (isPanelVisible("cookies")) {
+		thingsPopup.renderCookiesSection();
+	}
 
 	timeCounter.updateTimeCounter();
 	setTimeout(updateEverySecond, 1000);
