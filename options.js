@@ -15,12 +15,12 @@ function saveOptions() {
       status.style.display = 'block';
 
       chrome.tabs.query({}, (tabs) => {
-        tabs.forEach(tab => {
+        for (const tab of tabs) {
           chrome.tabs.sendMessage(tab.id, {
             type: "UPDATE_FLAGS",
             flags: flags
           }).catch(err => console.log("Error sending flags update:", err));
-        });
+        }
       });
 
       setTimeout(() => {
@@ -32,12 +32,12 @@ function saveOptions() {
 
 function restoreOptions() {
   chrome.storage.local.get('flags', (data) => {
-    if (data.flags && data.flags.panelsToShow) {
+    if (data.flags?.panelsToShow) {
       const panelsToShow = data.flags.panelsToShow;
 
-      document.querySelectorAll('input[name="panelsToShow"]').forEach(checkbox => {
+      for (const checkbox of document.querySelectorAll('input[name="panelsToShow"]')) {
         checkbox.checked = panelsToShow.includes(checkbox.value);
-      });
+      }
     }
   });
 }

@@ -2,6 +2,7 @@ import { getFlag, isPanelVisible } from "./feature-flags";
 import { mouse } from "./mouse";
 import { page } from "./page";
 import { tabDisplay } from "./tab-display";
+import { cookieDetector } from "./cookie-detector";
 
 interface Item {
 	name: string;
@@ -52,6 +53,17 @@ export const thingsPopup = {
 
 		if (container) {
 			container.innerHTML = this.renderItemsGrid(wordsOnThisPage);
+		}
+	},
+
+	renderCookiesSection(): void {
+		if (!isPanelVisible("cookies")) return;
+
+		const cookieData = cookieDetector.getCookies();
+		const container = document.getElementById("cookies");
+
+		if (container) {
+			container.innerHTML = this.renderItemsGrid(cookieData);
 		}
 	},
 
@@ -123,6 +135,7 @@ export const thingsPopup = {
 			{ id: "words", name: "Words Analysis" },
 			{ id: "mouse", name: "Mouse Tracking" },
 			{ id: "tabs", name: "Tab Time Tracking" },
+			{ id: "cookies", name: "Cookies" },
 		];
 
 		for (const category of categories) {
@@ -147,11 +160,12 @@ export const thingsPopup = {
 		const wordsCategory = this.createCategory("Words Analysis", "words");
 		const mouseCategory = this.createCategory("Mouse Tracking", "mouse");
 		const tabsCategory = this.createCategory("Tab Time Tracking", "tabs");
+		const cookiesCategory = this.createCategory("Cookies", "cookies");
 
 		container.innerHTML = "";
 
 		const categoriesHTML = document.createElement("div");
-		categoriesHTML.innerHTML = `${thingsCategory}${wordsCategory}${mouseCategory}${tabsCategory}`;
+		categoriesHTML.innerHTML = `${thingsCategory}${wordsCategory}${mouseCategory}${tabsCategory}${cookiesCategory}`;
 		container.appendChild(categoriesHTML);
 
 		if (!document.body.contains(container)) {
@@ -169,5 +183,6 @@ export const thingsPopup = {
 		this.renderWordsSection();
 		this.renderMouseSection();
 		this.renderTabsSection();
+		this.renderCookiesSection();
 	},
 };
