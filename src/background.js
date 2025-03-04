@@ -4,7 +4,13 @@ chrome.webRequest.onBeforeRequest.addListener(
 			if (tabs && tabs.length > 0) {
 				chrome.tabs.sendMessage(tabs[0].id, {
 					message: "Request",
-					details,
+					details: {
+						url: details.url,
+						type: details.type,
+						method: details.method,
+						initiator: details.initiator,
+						timeStamp: details.timeStamp
+					},
 				}).catch(err => console.log("Error sending request message:", err));
 			}
 		});

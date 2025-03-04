@@ -1,4 +1,3 @@
-
 function saveOptions() {
   const checkboxes = document.querySelectorAll('input[name="panelsToShow"]:checked');
   const panelsToShow = Array.from(checkboxes).map(checkbox => checkbox.value);
