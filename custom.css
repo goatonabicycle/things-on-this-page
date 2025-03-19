@@ -14,8 +14,8 @@
 
 .things-popup-contain {
   position: fixed;
-  top: 40px;
-  right: 16px;
+  bottom: 40px; 
+  left: 16px; 
   width: 350px;
   max-height: 85vh;  
   font-family: var(--popup-font-family);
@@ -27,7 +27,7 @@
   box-shadow: 0 10px 15px -3px var(--popup-shadow-color), 0 4px 6px -2px var(--popup-shadow-color);
   overflow-y: auto;
   opacity: 0;
-  transform: translateY(-8px);
+  transform: translateY(8px); 
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 999999;
   padding: var(--popup-padding);
@@ -216,8 +216,8 @@
 
 #things-popup-icon {
   position: fixed;
-  top: 0.5rem;
-  right: 0.5rem;
+  bottom: 0.5rem;
+  left: 0.5rem;
   cursor: pointer;
   display: flex;
   justify-content: center;
